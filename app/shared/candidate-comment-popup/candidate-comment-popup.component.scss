@@ -1,0 +1,35 @@
+* {
+    
+}
+.remarks-pop {
+    position: relative;
+    .comment-section {
+        position: relative;
+        overflow-y: scroll;
+        max-height: 70vh;
+        .comment {
+            border-radius: 0.5rem;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            hr {
+                margin: 0.3rem;
+            }
+            .comment-header {
+                h6, p {
+                    margin: 0;
+                }
+            }
+        }
+    }
+    .message-write-section {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        .form-row > * {
+            padding: 0.4rem;
+            .form-control {
+                width: 100%;
+            }
+        }
+    }
+}

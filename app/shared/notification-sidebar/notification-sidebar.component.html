@@ -1,0 +1,322 @@
+<!-- START Notification Sidebar-->
+<aside class="notification-sidebar d-none d-sm-none d-md-block" id="notification-sidebar" [ngClass]="{open: isOpen}">
+  <a class="notification-sidebar-close" (click)="onClose()">
+    <i class="ft-x font-medium-3 grey darken-1"></i>
+  </a>
+  <div class="side-nav notification-sidebar-content" [perfectScrollbar] #scrollFrame>
+    <div class="row">
+      <div class="col-12 notification-tab-content">
+        <ngb-tabset [activeId]="activeTabUrl">
+          <ngb-tab class="nav-item" id="activity" #activity>
+            <ng-template ngbTabTitle class="nav-link">Activity</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row tab-pane" id="activity-tab" role="tabpanel" aria-expanded="true"
+                aria-labelledby="base-tab1">
+                <div class="col-12" id="activity">
+                  <h5 class="my-2 text-bold-500">System Logs</h5>
+                  <div class="timeline-left timeline-wrapper mb-3" id="timeline-1">
+                    <ul class="timeline">
+                      <li class="timeline-line mt-4"></li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-download primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>New Update Available</span>
+                            <span class="float-right grey font-italic font-small-2">1 min ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Android Pie 9.0.0_r52v availabe (658MB).</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Download Now!</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-15.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Reminder!</span>
+                            <span class="float-right grey font-italic font-small-2">52 min ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Your meeting is scheduled with Mr. Derrick Walters at 16:00.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Snooze</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-16.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Recieved a File</span>
+                            <span class="float-right grey font-italic font-small-2">4 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Christina Rogers sent you a file for the next conference.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <img src="assets/img/icons/sketch-mac-icon.png" alt="icon" width="20">
+                              <span class="text-bold-500 ml-2">Diamond.sketch</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-mic primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Voice Message</span>
+                            <span class="float-right grey font-italic font-small-2">10 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Natalya Parker sent you a voice message.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Listen</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-cloud-drizzle primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Weather Update</span>
+                            <span class="float-right grey font-italic font-small-2">Yesterday</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Hi John! It is a rainy day with 16&deg;C.</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <h5 class="my-2 text-bold-500">Applications Logs</h5>
+                  <div class="timeline-left timeline-wrapper" id="timeline-2">
+                    <ul class="timeline">
+                      <li class="timeline-line mt-4"></li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-26.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Gmail</span>
+                            <span class="float-right grey font-italic font-small-2">Just now</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Victoria Hampton sent you a mail and has a file attachment
+                            with it.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <img src="assets/img/icons/pdf.png" alt="pdf icon" width="20">
+                              <span class="text-bold-500 ml-2">Register.pdf</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-droplet primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>MakeMyTrip</span>
+                            <span class="float-right grey font-italic font-small-2">7 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Your next flight for San Francisco will be on 24th March.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Important</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-23.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>CNN</span>
+                            <span class="float-right grey font-italic font-small-2">16 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">U.S. investigating report says email account linked to CIA
+                            Director was hacked.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Read full article</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-map primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Maps</span>
+                            <span class="float-right grey font-italic font-small-2">Yesterday</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">You visited Walmart Supercenter in Chicago.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Write a Review!</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-package primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Updates Available</span>
+                            <span class="float-right grey font-italic font-small-2">2 days ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">19 app updates found.</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab class="nav-item" id="settings">
+            <ng-template ngbTabTitle class="nav-link">Refer & Earn</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row tab-pane" id="settings-tab" aria-labelledby="base-tab2">
+                <div class="col-12" id="settings">
+                  <div id="ember395" class="flyout-sm  flyout ember-view">
+                    <div class="flyout-body pb-0" style="top:0;">
+                      <div class="text-center aliceblue-bg px-3 py-5" style="color:#165077">
+                        <img class="mt-7 pl-7" width="80%" [src]="referEarnimg">
+                        <div class="w-75 align-center my-3">
+                          <p class="font-xxlarge text-bold">Know people who would love this ERP?</p>
+                          <div class="border-left-0 border-right-0 py-3" style="color:#ff5858;border:1px dashed #165077;">Refer now and earn <b>15%</b> of the subscription payment as wallet credits</div>
+                        </div>
+                        <a href="#" class="btn mt-3 mb-7 text-white" style="background-color:#165077" rel="noopener noreferrer"> Refer and Earn </a></div>
+                        <div class="px-7 py-2 m-5">
+                          <p class="text-bold text-uppercase text-muted">How do you Refer &amp; Earn?</p>
+                          <hr class="mt-3">
+                          <p class="font-small">
+                            Refer your friends and once they start using Shivit ERP, you will get <b style="color:#ff5858">15%</b> of their subscription payment to Shivit as your wallet credit.
+                            Also, your friend will earn <b style="color:#ff5858">&#8377; 1000</b> as wallet credit for subscribing through referral.
+                            You can refer as many friends as you wish.
+                          </p>
+                          <p class="font-small mb-2">The amount will be credited to your wallet after 90 days, if the friend you referred continues to stay as a paying customer.</p>
+                        </div>
+                        <a href="#" class="font-xxs px-7 mx-5" style="color:#165077" rel="noopener noreferrer"> *Terms and Conditions apply </a>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab class="nav-item" id="quickAssist" #quickAssist>
+            <ng-template ngbTabTitle class="nav-link">Quick Assist</ng-template>
+            <ng-template ngbTabContent>
+              <div class="row tab-pane" id="quickAssist-tab" role="tabpanel" aria-expanded="true"
+                aria-labelledby="base-tab1">
+                <div class="col-12" id="quickAssist">
+                  <!-- <h5 class="my-2 text-bold-500">System Logs</h5> -->
+                  <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;" 
+                        id="general-tab" data-toggle="tab" role="tab" aria-controls="general"
+                        aria-selected="true" style="color: #1e1f21;">
+                        <i class="ft-phone mr-1 align-middle"></i>
+                        <span class="align-middle">CALL US @ <u>+91-9818143107</u></span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;" 
+                        id="general-tab" data-toggle="tab" role="tab" aria-controls="general"
+                        aria-selected="true" style="color: #1e1f21;">
+                        <i class="ft-settings mr-1 align-middle"></i>
+                        <span class="align-middle">Get Started</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;" id="change-password-tab" data-toggle="tab" role="tab"
+                        aria-controls="change-password" aria-selected="false" style="color: #1e1f21;">
+                        <i class="ft-lock mr-1 align-middle"></i>
+                        <span class="align-middle">Support Addressed</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;" id="info-tab" data-toggle="tab" role="tab" aria-controls="info"
+                        aria-selected="false" style="color: #1e1f21;">
+                        <i class="ft-info mr-1 align-middle"></i>
+                        <span class="align-middle">Macros</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;"  id="social-links-tab" data-toggle="tab" role="tab"
+                        aria-controls="social-links" aria-selected="false" style="color: #1e1f21;">
+                        <i class="ft-twitter mr-1 align-middle"></i>
+                        <span class="align-middle">Quick Help</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:;" id="connections-tab" data-toggle="tab" role="tab"
+                        aria-controls="connections" aria-selected="false" style="color: #1e1f21;">
+                        <i class="ft-link mr-1 align-middle"></i>
+                        <span class="align-middle">Ticket posting</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</aside>
+<!-- END Notification Sidebar-->

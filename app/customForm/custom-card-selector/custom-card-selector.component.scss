@@ -1,0 +1,13 @@
+.custom-card {
+    cursor: pointer;
+}
+
+.custom-card.selected {
+    color: #fff;
+    background-color: #2f8be6;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-family: Arial, Helvetica, sans-serif;
+}

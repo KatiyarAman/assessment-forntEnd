@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Questrial&display=swap');
+
+.card {
+    box-shadow: none;
+    border-radius: 0;
+    border: 1px solid #ccc;
+    border-top: 3px solid #17a2ba;
+
+    h6 {
+        color: var(--cyan);
+    }
+    .card-text {
+        font-size: 1rem;
+    }
+
+    .icon{
+        float: left;
+        cursor: pointer;
+        line-height: 2rem;
+        color: #8a8585;
+    }
+
+    .btn1{
+        float: right;
+    }
+}
+
+.card:hover {
+    box-shadow: 8px 8px 14px#E0E0E0 !important;
+}

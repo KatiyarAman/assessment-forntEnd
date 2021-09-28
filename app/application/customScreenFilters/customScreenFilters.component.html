@@ -1,0 +1,77 @@
+<!-- <form class="form" [formGroup]="dataForm" novalidate> -->
+    
+<form novalidate>
+    <div class="mainContent col-md-12">
+        <div class="row"  style="display: block;">
+            <table role="grid" class="customTable" style="min-width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Filter Value</th>
+                        <th>Hide/Show Field</th>
+                        <th>Sort</th>
+                        <th>Sort Order</th>
+                    </tr>
+                </thead>
+                        
+                <tbody [formGroup]="filter" *ngFor="let filter of filters.controls; let i = index">
+                    <tr>
+                        <td>
+                            <input type="hidden" formControlName="id"/>
+                            <input type="hidden" formControlName="userId"/>
+                            <input type="hidden" formControlName="fieldIndexingId"/>
+                            <input type="hidden" formControlName="moduleId"/>
+                            {{fieldList[i].fieldHeader}}
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="filterValue_{{i}}" class="form-control" type="{{fieldList[i].fieldType}}" *ngIf="fieldList[i].fieldType != 'select' && fieldList[i].fieldType != 'autoCompleter' && fieldList[i].fieldType != 'radio' && fieldList[i].fieldType != 'switch' && fieldList[i].fieldType !='multiSelect' && fieldList[i].fieldType != 'textarea' && fieldList[i].fieldType != 'spanText'" formControlName="filterValue"/>
+                                <select class="form-control" id="filterValue_{{i}}" *ngIf="fieldList[i].fieldType == 'select'" formControlName="filterValue">
+                                    <option value="">Select {{fieldList[i].fieldHeader}}</option>
+                                    <option *ngFor="let option of fieldList[i].options" value="{{option.value}}">{{option.title}}</option>
+                                </select>
+                                <ng-select id="filterValue_{{i}}" class="col-md-12" [items]="fieldList[i].options" bindValue="value" bindLabel="title" [multiple]="fieldList[i].fieldType == 'multiSelect'"  *ngIf="fieldList[i].fieldType == 'autoCompleter' || fieldList[i].fieldType == 'multiSelect'" formControlName="fieldValue" placeholder="Select {{fieldList[i].fieldHeader}}"></ng-select>
+                                <div class="custom-switch custom-control-inline mb-1 mb-xl-0" *ngIf="fieldList[i].fieldType == 'switch'">
+                                    <input type="checkbox" formControlName="filterValue" class="custom-control-input" id="filterValue_{{i}}">
+                                    <label class="custom-control-label mr-1" [for]="'filterValue_' + i">
+                                    <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-switch custom-control-inline mb-1 mb-xl-0">
+                                <input type="checkbox" formControlName="hidden" class="custom-control-input" id="hidden_{{i}}">
+                                <label class="custom-control-label mr-1" [for]="'hidden_' + i">
+                                <span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-switch custom-control-inline mb-1 mb-xl-0">
+                                <input type="checkbox" formControlName="sortFlag" class="custom-control-input" id="sortFlag_{{i}}">
+                                <label class="custom-control-label mr-1" [for]="'sortFlag_' + i">
+                                <span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <select class="form-control" id="sortOrder_{{i}}" formControlName="sortOrder">
+                                <option value="">Select SortOrder</option>
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </td>
+                    </tr>                        
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="form-group text-right">
+                <button (click)="onCustomAction(button.name)" placement="top" *ngFor="let button of buttons" ngbTooltip="{{button.title}}" customAction [attr.action]="button.name" class="btn {{button.actionClass}} btn-raised mr-1 btn-sm"><i class="{{button.icon}}" *ngIf="button.icon != ''"></i>{{button.title}}</button>
+            </div>
+        </div>
+    </div>
+</form>

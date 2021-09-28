@@ -1,0 +1,117 @@
+<section class="dataTable"  [ngClass]="{open: showData}">
+    <form class="form" [formGroup]="searchForm" novalidate *ngIf="showData">
+        <div class="row">
+            <div class="newDiv col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="card-title">{{params.title}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <button (event)="onCustomAction($event)" placement="bottom" *ngFor="let button of buttons" ngbTooltip="{{button.title}}" customAction [attr.action]="button.name" class="btn {{button.actionClass}} btn-raised mr-1 btn-sm"><i class="{{button.icon}}" *ngIf="button.icon != ''"></i>{{button.title}}</button>
+                        <!--<button (event)="onCustomAction($event,fieldList)" placement="bottom" ngbTooltip="Add" customAction action="add" class="btn btn-info btn-raised mr-1 btn-sm">Add More</button>-->
+                        <i *ngFor="let icon of icons" class="{{icon.actionClass}} {{icon.icon}}" [ngClass]="{'open': searchOpenClass && icon.title == 'Search'}" (click)="getName(icon.title)" placement="bottom" ngbTooltip="{{icon.title}}" customAction [attr.action]="icon.name"></i>
+                    
+                        <!-- <i class="icons ft-settings font-medium-1" placement="bottom" ngbTooltip="Settings" customAction action="add"></i> -->
+                        <div>
+                            <div class="search-input form-group mr-1" [ngClass]="{'open': searchOpenClass}" style="float: right;">
+                                <!-- <label>Search: -->
+                                <fieldset>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text searchBtn" id="basic-addon1" (click)="getSearchData()"><i class='icons search ft-search font-medium-1'></i></span>
+                                        </div>
+                                        <span class="position-relative has-icon-right">
+                                            <span class="search-input-close form-control-position" (click)="toggleSearchOpenClass(false)">
+                                                <i class="ft-x"></i>
+                                            </span>
+                                            <input type="text" class="form-control searchInput" #search formControlName="search" autofocus placeholder="Search">
+                                        </span>
+                                        <div class="input-group-append">                                        
+                                            <span class="input-group-text" (click)="toggleAdvanceSearchOpenClass()">
+                                                <i class="ft-chevrons-down" style="color: black;" placement="bottom" ngbTooltip="Advance Filter"></i>
+                                            </span>
+                                        <!-- </div>
+                                        <div class="input-group-append"> -->
+                                            <span class="input-group-text searchSelection"  id="basic-addon2">
+                                                <ng-select [items]="dropdownList" placeholder="All" [multiple]='true' bindValue="value" bindLabel="label"  formControlName="multiSelect" ></ng-select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <!-- </label> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="advanceFilter">
+                    <div class="filters col-md-12">
+                        <app-customFilter [filterData]="advanceFilters" [moduleId]="filterParams.moduleId" [params]="filterParams" [moduleAction]="filterParams.action" (getAction) = "onSearch($event)"></app-customFilter>
+                    </div>
+                </div>
+                <div class="row" *ngIf="screenFilter">
+                    <div class="filters col-md-12">
+                        <app-customFilter [filterData]="screenFilters" [moduleId]="screenFilterParams.moduleId" [params]="screenFilterParams" [moduleAction]="screenFilterParams.action" (getAction) = "onSearch($event)"></app-customFilter>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="margin-bottom: 3rem">
+                <div class="row">
+                    <div class="col-md-4 my-2 custom-card rounded" *ngFor="let data of dataList">
+                        <div class="card h-100 p-2 w-100" [class]="data['status'] == 2 ? 'border-top-success' : 'border-top-danger'">
+                            <ng-container *ngFor="let columns of headerObject; let i = index;">
+                                <ng-container *ngIf="columns.indexFieldName == 'id'"></ng-container>
+                                <ng-container *ngIf="i == 1 && columns.indexFieldName != 'id'">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title">{{data[columns.indexFieldName]}}</h5>
+                                        <i class="fa fa-2x fa-power-off" [class]="data['status'] == 2 ? 'text-success' : 'text-danger'"></i>
+                                    </div>
+                                    <hr/>
+                                </ng-container>
+                                <ng-container *ngIf="columns.indexFieldName != 'id' && i != 1 && columns.indexFieldName != 'status'">
+                                    <p><strong>{{columns.indexFieldHeader}}: </strong>{{data[columns.indexFieldName]}}</p>
+                                </ng-container>
+                                <ng-container *ngIf="columns.indexFieldName != 'id' && i != 1 && columns.indexFieldName == 'status'">
+                                    <p><strong>{{columns.indexFieldHeader}}: </strong><strong [class]="data[columns.indexFieldName] == 2 ? 'text-success' : 'text-danger'">{{data[columns.indexFieldName] == 2 ? 'Active': 'Inactive'}}</strong></p>
+                                </ng-container>
+                            </ng-container>
+                            <div class="d-flex justify-content-end">
+                                <i *ngFor = "let act of actions" class="{{act.icon}} {{act.actionClass}}" (event)="onCustomAction($event,fieldList)" placement="top" ngbTooltip="{{act.title}}" customAction [attr.status]="data.status" [attr.data-id]="data.id" [attr.action]="act.name" [attr.subscriptionType]="data.subType" [attr.trialPeriod]="data.trialPeriod"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 d-flex justify-content-center">
+                        <!-- <button (click)="getPage(this.currentPage - 1)" class="btn btn-info px-2" [disabled]="this.currentPage == this.startPage">
+                            <i class="fa fa-arrow-circle-left text-white"></i>
+                        </button>
+                        
+                        <button (click)="getPage(this.currentPage + 1)" class="btn btn-info px-2" [disabled]="this.currentPage == this.endPage">
+                            <i class="fa fa-arrow-circle-right text-white"></i>
+                        </button> -->
+                        <button  (click)="loadMoreData()" class="btn btn-white text-danger px-2 load-more-button" [disabled]="this.pageLimit == this.totalElements">
+                            <i class="fa fa-arrow-circle-down fa-2x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- <h6 class="text-primary m-0">Or Login With</h6> -->
+                <ngx-spinner></ngx-spinner>
+                <!-- <div class="login-options">
+                  <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
+                  <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
+                </div> -->
+            </div>
+        </div>
+        <div class="pageFooter col-md-10">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite">
+                        Showing {{startLimit}} {{appService.pageHistory.currentPage == 1 ? '' : 'to'}} {{appService.pageHistory.currentPage == 1 ? '' : endLimit}} of {{totalElements}} entries
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

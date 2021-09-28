@@ -1,0 +1,17 @@
+<tr class="d-flex flex-column" [formGroup]="parentForm">
+    <div class="d-flex cell-container">
+        <td class="col-1 mx-1"><input type="checkbox" [formControlName]="question.id"></td>
+        <!-- <td class="col-8 row-title">{{question.question | truncate:[80, '...']}}</td> -->
+        <td class="col-8 row-title">{{question.question}}</td>
+        <td class="col-1"><span class="badge badge-pill badge-info"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                {{question.timeLimit / 60}} Min</span></td>
+        <td class="col-1 mx-1"><span class="badge badge-pill"
+                [class]="getDifficultyLevelClass(question.difficultyLevel)">{{question.difficultyLevel}}</span></td>
+        <td class="col-1 mx-1"><i class="fa p-2"
+                [class]="detailsHide ? 'fa-chevron-circle-down' : 'fa-chevron-circle-up'" aria-hidden="true"
+                (click)="detailsHide = !detailsHide"></i></td>
+    </div>
+    <div [ngbCollapse]="detailsHide" class="question-details">
+        <app-questionnaire-details *ngIf="!detailsHide" [questionId]="question.id"></app-questionnaire-details>
+    </div>
+</tr>

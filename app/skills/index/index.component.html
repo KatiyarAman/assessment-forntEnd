@@ -1,0 +1,2 @@
+<app-dataTable *ngIf="params.listType == 'pagination'" [setting] = clientSetting (getAction) = "onCustomAction($event)"></app-dataTable>
+<app-custom-card-list *ngIf="params.listType == 'card-list'" [setting] = clientSetting (getAction) = "onCustomAction($event)"> </app-custom-card-list>

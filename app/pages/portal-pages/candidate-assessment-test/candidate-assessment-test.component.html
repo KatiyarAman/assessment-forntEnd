@@ -1,0 +1,20 @@
+<div class="container my-2" id="register-form" [ngClass]="{open: showData}" *ngIf="!showLoading">
+    <div class="d-flex justify-content-between align-items-center p-2 heading-container">
+        <div class="d-flex flex-column p-3">
+          <div class="heading font-weight-bold">{{jobDescriptionData.jobTitle}}
+            <span class="viewIcon" (click)="getProfile()"><i class="ft-eye" placement="top" ngbTooltip="View Job Description"></i></span>
+          </div>
+          <div class="sub-heading">Shivit Technologies Pvt. Ltd.</div>
+        </div>
+        <div class="d-flex">
+          <img src="../../../../assets/img/shivitlogo.png" alt="" width="300px" height="auto">
+        </div>
+      </div>
+      <div class="d-flex job-detail-card  rounded px-3 text-secondary align-items-center mx-3">
+        <i class="icon fa fa-map-marker-alt p-1"></i>
+        <!-- <span class="p-1" *ngFor="let loc of payloadData.jobProfile.location" [textContent]="loc"></span>
+         -->
+        <span [textContent]="jobDescriptionData.location"></span>
+      </div>
+    <app-portalForm [moduleId]="moduleId" [params]="formParams" [moduleAction]="action"></app-portalForm>
+</div>

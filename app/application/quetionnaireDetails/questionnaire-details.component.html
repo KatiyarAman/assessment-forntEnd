@@ -1,0 +1,42 @@
+<div class="container p-3" *ngIf="questionDetails">
+    <div class="row">
+        <div class="col-12">
+            <p class="p-2" [innerHTML]="questionDetails.description"></p>
+        </div>
+        <div class="col-12 d-flex justify-content-between">
+            <p class="p-2 border alert alert-success font-weight-bold"><i class="fa fa-check-circle" aria-hidden="true"></i> {{questionDetails.marks}} points</p>
+            <p class="p-2 border alert alert-danger">Negetive Mark Factor {{questionDetails.negetiveMarkFactor * 100}}% </p>
+        </div>
+        <div class="col-12" *ngIf="questionDetails.skills">
+            <div>
+                <span class="badge badge-primary mx-2" *ngFor="let skill of questionDetails.skills" [textContent]="skill.skill"></span>
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-start">
+            <p class="p-2 my-2"><strong>Answer Field Type</strong> : {{questionDetails.fieldType}}</p>
+        </div>
+        <div class="col-12 rounded px-3 my-2" *ngIf="questionDetails.answerExplanation">
+            <div class="border rounded">
+                <div class="bg-dark">
+                    <p class="text-white p-2 font-weight-bold">Answer Explationation</p>
+                </div>
+                <div class="p-2" [textContent]="questionDetails.answerExplanation"></div>
+            </div>
+        </div>
+        <div class="col-12 rounded px-3 my-2" *ngIf="questionDetails.options && questionDetails.options.length > 0">
+            <div class="border rounded">
+                <div class="bg-dark">
+                    <p class="text-white p-2"><strong>Options</strong></p>
+                </div>
+                <div class="p-2 d-flex flex-column">
+                    <div class="d-flex align-items-center my-2" *ngFor="let option of questionDetails.options">
+                        <div class="p-3">
+                            <i class="fa fa-check text-success" [class]="option.correctOption ? 'text-success fa-check' : 'text-danger fa-times-circle'" style="font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="p-1" [textContent]="option.optionName"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

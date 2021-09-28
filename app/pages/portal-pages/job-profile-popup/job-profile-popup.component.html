@@ -1,0 +1,117 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{name}}</h4>
+  <button type="button" class="close" aria-label="Close" (click) = "getAction('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container bg-white" [ngClass]="{open: showData}" *ngIf="jobDescription">
+    <div class="row p-2 my-2">
+      <div class="col-12 p-2 flex-column shadow rounded">
+        <div class="d-flex justify-content-between align-items-center p-2 heading-container">
+          <div class="d-flex flex-column p-3">
+            <div class="heading font-weight-bold">{{jobDescription.jobTitle}}</div>
+            <div class="sub-heading">Shivit Technologies Pvt. Ltd.</div>
+          </div>
+          <div class="d-flex">
+            <img src="../../../../assets/img/shivitlogo.png" alt="" width="300px" height="auto">
+          </div>
+        </div>
+        <div class="d-flex job-details flex-row px-3">
+          <!-- first-job-detail-card -->
+          <div class="d-flex job-detail-card  rounded px-3 text-secondary align-items-center mx-3">
+            <i class="icon fa fa-map-marker-alt p-1"></i>
+            <!-- <span class="p-1" *ngFor="let loc of payloadData.jobProfile.location" [textContent]="loc"></span>
+             -->
+            <span [textContent]="jobDescription.location"></span>
+          </div>
+          <div class="d-flex job-detail-card rounded text-secondary align-items-center mx-3">
+            <i class="icon fa fa-briefcase p-1"></i>
+            <span class="p-1">{{jobDescription.minExperience}}
+              {{jobDescription.minExperienceUnit == 'MONTH'?'Month':'Year'}} - {{jobDescription.maxExperience}}
+              {{jobDescription.maxExperienceUnit == 'MONTH'?'Month':'Year'}}</span>
+          </div>
+          <div class="d-flex job-detail-card rounded text-secondary align-items-center mx-3">
+            <i class="icon fa fa-user-friends p-1"></i>
+            <span class="p-1">{{jobDescription.noOfOpenings}} Openings</span>
+          </div>
+          <div class="d-flex job-detail-card rounded text-secondary align-items-center mx-3">
+            <i class="icon fa fa-sun p-1"></i>
+            <span class="p-1">{{jobDescription.schedule}}</span>
+          </div>
+          <div class="d-flex job-detail-card rounded text-secondary align-items-center mx-3"
+            *ngIf="jobDescription.showSalaryToCandidates">
+            <i class="icon fa fa-money-bill-alt p-1"></i>
+            <span class="p-1">₹ {{jobDescription.minSalary}} - ₹ {{jobDescription.maxSalary}}</span>
+          </div>
+        </div>
+        <div class="px-3 py-2 publish-date d-flex justify-content-between">
+          <p class="text-success font-weight-bold p-2 mb-0">Published on {{jobDescription.postedDate}}</p>
+          <p class="font-weight-bold p-2 mb-0" style="color: lightcoral;">Applicable Till
+            {{jobDescription.applicableDate}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row p-2 my-2 job-desc-row">
+      <div class="col-8 p-2">
+        <div class="shadow rounded p-3">
+          <h6>Job Description</h6>
+          <hr />
+          <div [innerHTML]="jobDescription.description">
+  
+          </div>
+          <hr/>
+          <!-- <button class="apply-button mx-2 px-5 btn btn-info font-weight-bold text-white"
+            *ngIf="jobDescription.jobPostingDto.jobApplyType != 'WALKIN'" (click)="apply()">Apply</button> -->
+        </div>
+      </div>
+      <div class="col-4 p-2 d-flex flex-column">
+        <div class="shadow rounded p-3 m-2">
+          <h6>Required Skills</h6>
+          <div class="d-flex flex-wrap">
+            <span class="skill-badge px-2" *ngFor="let skill of jobDescription.requiredSkills"
+              [textContent]="skill.skill"></span>
+          </div>
+        </div>
+        <div class="shadow rounded p-3 m-2">
+          <h6>Share This Job</h6>
+          <div class="d-flex p-2 social-share">
+            <a [href]="whatsappShare" target="_blank">
+              <img src="/assets/social-icons/whatsapp.png" alt="">
+            </a>
+            <a [href]="facebookShare" target="_blank">
+              <img src="/assets/social-icons/facebook.png" alt="">
+            </a>
+            <a [href]="twitterShare" target="_blank">
+              <img src="/assets/social-icons/twitter.png" alt="">
+            </a>
+            <a [href]="linkedInShare" target="_blank">
+              <img src="/assets/social-icons/linkedin.png" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-12 p-3 flex-column shadow rounded">
+        <h6 class="font-weight-bold">Contact</h6>
+        <div class="d-flex justify-content-start text-secondary">
+          <div class="contact-item d-flex align-items-center mx-2">
+            <i class="fa fa-envelope  px-2"></i>
+            <span>info@shivit.com</span>
+          </div>
+          <div class="contact-item d-flex align-items-center mx-2">
+            <i class="fa fa-phone  px-2"></i>
+            <span> 0120-4572107</span>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <!-- <button type="button" class="btn btn-secondary btn-raised btn-info" (click)="save()">Save</button> -->
+  <button type="button" class="btn btn-secondary btn-raised btn-danger" (click)="getAction('close')">Close</button>
+</div>
+

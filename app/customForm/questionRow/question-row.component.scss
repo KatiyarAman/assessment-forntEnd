@@ -1,0 +1,31 @@
+tr {
+    border-bottom: 1px solid #eee;
+    .cell-container {
+        align-items: center;
+        .badge {
+            font-weight: bold; 
+        }
+        .row-title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .fa.fa-chevron-circle-down, .fa.fa-chevron-circle-up {
+            font-size: 1.2rem;
+        }
+        td {
+            padding: 0.5rem;
+        }
+    }
+    .question-details {
+        background-color: #eef;
+        img {
+            max-width: 400px;
+            max-height: 240px;
+        }
+    }
+}
+
+tr:hover {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}

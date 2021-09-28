@@ -1,0 +1,14 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{introVideo.filename}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3 video-container">
+    <video src="" controls #player autoplay></video>
+    <div class="logo">
+      <img src="../../../assets/img/shivit_logo.png" alt="" width="50px" height="50px">
+    </div>
+  </div>
+</div>

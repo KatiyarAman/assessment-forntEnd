@@ -1,0 +1,619 @@
+<!-- <ng-container *ngIf="wizardStepsFields && wizardStepsFields.length > 0">
+    <aw-wizard class="py-3" [navBarLocation]="'top'" [navBarLayout]="'large-filled-symbols'">
+        <aw-wizard-step *ngFor="let step of wizardStepsFields; let i = index;" [stepTitle]="step.fieldHeader" [navigationSymbol]="{symbol: i + 1}">
+            
+            
+        </aw-wizard-step>
+    </aw-wizard>
+</ng-container> -->
+
+<form class="form" [formGroup]="dataForm" novalidate>
+    <section id="custom-form-layouts">
+
+        <!-- {{fieldDisplay}} -->
+        <div class="newDiv col-md-12">
+            <div class="row">
+                <h4 class="card-title">{{params.title}}</h4>
+            </div>
+        </div>
+        <div class="mainContent col-md-12">
+            <div class="row" style="display: block;">
+                <!-- <form class="form" [formGroup]="dataForm" novalidate> -->
+                <div class="row">
+                    <div *ngFor="let field of fieldList"
+                        [ngClass]="{'col-md-6 col-12': field.defaultShow && field.fieldType != 'hidden' && field.fieldType != 'textarea' && field.fieldType != 'textEditor' && field.fieldType != 'Section' && field.fieldType != 'wizardStep' && field.fieldType != 'object' && field.fieldType != 'table' && field.fieldType != 'cardSelection', 'col-md-12':field.defaultShow && (field.fieldType == 'textarea' || field.fieldType == 'Section' || field.fieldType == 'table'|| field.fieldType == 'object' || field.fieldType == 'textEditor' || field.fieldType == 'cardSelection')}">
+                        <input *ngIf="!field.defaultShow && field.fieldType == 'hidden'" type="{{field.fieldType}}"
+                            formControlName="{{field.fieldName}}">
+                        <div *ngIf="field.defaultShow && field.fieldType != 'hidden' && field.fieldType != 'textarea' && field.fieldType != 'textEditor' && field.fieldType != 'Section' && field.fieldType != 'table' && field.fieldType != 'object' && field.fieldType != 'tabs' && field.fieldType != 'cardSelection' && field.fieldType != 'wizardStep'"
+                            class="col-12">
+                            <div class="form-group row">
+                                <label class="col-md-5 col-form-label" for="horizontal-form-1">
+                                    {{field.fieldHeader}} <font *ngIf="field.isMandatory=='required'"
+                                        class="text-muted text-danger">*</font>
+                                    <ng-template #popContent>
+                                        <span style="text-align: left;" [innerHTML]="field.tooltipContent"></span>
+                                    </ng-template>
+                                    <i class="ft-info text-info btn-lg btn-sm"
+                                        *ngIf="field.tooltipType =='popover' && field.tooltipActivation == 'hover'"
+                                        placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave"
+                                        popoverTitle="{{field.tooltipTitle}}"></i>
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="{{field.fieldType}}"
+                                        *ngIf="field.fieldType != 'select' && field.fieldType != 'switch' && field.fieldType != 'slider' && field.fieldType != 'tag' && field.fieldType != 'radio' && field.fieldType != 'multiSelect'  && field.fieldType != 'autoCompleter'"
+                                        class='form-control' formControlName="{{field.fieldName}}"
+                                        name="{{field.fieldName}}" id="{{field.fieldName}}"
+                                        placeholder="{{field.fieldHeader}}"
+                                        [readonly]="field.type == 'AutoGenerate' || field.type == 'Auto' || field.type == 'AutoPopulate'"
+                                        [required]="field.isMandatory == 'required'"
+                                        [ngClass]="{'is-invalid': (submitted || (f[field.fieldName]?.touched && (f[field.fieldName].errors?.email || f[field.fieldName].errors?.pattern || f[field.fieldName].errors?.maxlength || f[field.fieldName].errors?.minlength || f[field.fieldName].errors?.passwordMatchValidator))) && (f[field.fieldName].errors || f[field.fieldName].errors?.passwordMatchValidator), 'is-valid': (submitted || (f[field.fieldName].touched && !f[field.fieldName].errors?.email && !f[field.fieldName].errors?.pattern && !f[field.fieldName].errors?.maxlength && !f[field.fieldName].errors?.minlength && !f[field.fieldName].errors?.passwordMatchValidator)) &&  !f[field.fieldName].errors}"
+                                        (ngModelChange)="getEvent($event,field.fieldName,field.fieldType,'',field.id)" />
+                                    <!-- {{f[field.fieldName].errors?.passwordMatchValidator}} -->
+                                    <tag-input *ngIf="field.fieldType == 'tag'" [formControlName]="field.fieldName" (onSelect)="onSelect($event)"
+                                        [modelAsStrings]="true" (ngModelChange)="getEvent($event,field.fieldName,field.fieldType,'',field.id)">
+                                    </tag-input>
+                                    <div class="custom-switch custom-control-inline mb-1 mb-xl-0" *ngIf="field.fieldType == 'switch'">
+                                        <input type="checkbox" [formControlName]="field.fieldName" class="custom-control-input" [id]="field.fieldName" (ngModelChange)="getEvent($event,field.fieldName,field.fieldType,'',field.id)">
+                                        <label class="custom-control-label mr-1" [for]="field.fieldName">
+                                          <span></span>
+                                        </label>
+                                    </div>
+                                    <nouislider *ngIf = "field.fieldType == 'slider'" [min]="0" [max]="20" [step]="1" [formControl]="dataForm.controls[field.fieldName]"></nouislider>
+                                    <div class="row" *ngIf="field.fieldType == 'radio'">
+                                        <!-- <ul class="list-unstyled mb-0">
+                                                <li class="d-inline-block align-top mr-2" *ngFor="let option of field.options"> -->
+                                        <div class="col-md-4" *ngFor="let option of field.options">
+                                            <input class="col-md-2" type="{{field.fieldType}}"
+                                                name="{{field.fieldName}}" formControlName="{{field.fieldName}}"
+                                                value="{{option.value}}" [required]="field.isMandatory == 'required'"
+                                                [ngClass]="{'is-invalid': (submitted || (f[field.fieldName].touched && (f[field.fieldName].errors?.email || f[field.fieldName].errors?.pattern || f[field.fieldName].errors?.maxlength || f[field.fieldName].errors?.minlength))) && f[field.fieldName].errors && field.isMandatory == 'required', 'is-valid': (submitted || (f[field.fieldName].touched && !f[field.fieldName].errors?.email && !f[field.fieldName].errors?.pattern && !f[field.fieldName].errors?.maxlength && !f[field.fieldName].errors?.minlength)) &&  !f[field.fieldName].errors}">
+                                            <label class="col-md-10">{{option.title}}</label>
+                                        </div>
+                                        <!-- </li>
+                                            </ul> -->
+                                    </div>
+                                    <ng-select [items]="field.options" bindValue="value" bindLabel="title"
+                                        (ngModelChange)="getEvent($event,field.fieldName,field.fieldType,'',field.id)"
+                                        [multiple]="field.fieldType == 'multiSelect'"
+                                        *ngIf="field.fieldType == 'autoCompleter' || field.fieldType == 'multiSelect'"
+                                        formControlName="{{field.fieldName}}" id="{{field.fieldName}}"
+                                        placeholder="{{field.fieldHeader}}"
+                                        [readonly]="field.type == 'AutoGenerate' || params.action == 'view'"
+                                        [required]="field.isMandatory == 'required'"
+                                        [ngClass]="{'is-invalid': submitted && f[field.fieldName].errors, 'is-valid': submitted &&  !f[field.fieldName].errors}">
+                                    </ng-select>
+                                    <select class="form-control"
+                                        (ngModelChange)="getEvent($event,field.fieldName,field.fieldType,'',field.id)"
+                                        *ngIf="field.fieldType == 'select'" formControlName="{{field.fieldName}}"
+                                        name="{{field.fieldName}}" id="{{field.fieldName}}"
+                                        [required]="field.isMandatory == 'required'"
+                                        [ngClass]="{'is-invalid': (submitted && f[field.fieldName].errors), 'is-valid': submitted &&  !f[field.fieldName].errors}">
+                                        <option value="">Select {{field.fieldHeader}}</option>
+                                        <option *ngFor="let option of field.options" value="{{option.value}}">
+                                            {{option.title}}</option>
+                                    </select>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.required && field.isMandatory == 'required' ">{{field.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.email && field.fieldType == 'email' ">Please
+                                        Enter Valid Email Address</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName]?.errors && f[field.fieldName]?.errors?.email && field.fieldType == 'email' && f[field.fieldName].touched ">Please
+                                        Enter Valid Email Address</small>
+                                    <div *ngFor="let validations of field.fieldValidations">
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="!submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="!submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'minlength' ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && validations.validationName == 'minlength'  ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="!submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'pattern' ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && validations.validationName == 'pattern'  ">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="submitted && f[field.fieldName].errors?.passwordMatchValidator && validations.validationName == 'passwordMatchValidator'">{{validations.errorMessage}}</small>
+                                        <small class="form-text text-muted danger"
+                                            *ngIf="!submitted && f[field.fieldName].errors?.passwordMatchValidator && f[field.fieldName].touched && validations.validationName == 'passwordMatchValidator' ">{{validations.errorMessage}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div Class="col-12" *ngIf="field.defaultShow && field.fieldType == 'textarea'">
+                            <div class="form-group row"
+                                *ngIf="field.defaultShow && field.fieldType != 'hidden' && field.fieldType == 'textarea' ">
+                                <label class="label-control" for="{{field.fieldName}}">{{field.fieldHeader}}<font
+                                        color='red' *ngIf="field.isMandatory == 'required'">*</font>:
+                                    <ng-template #popContent><span style="text-align: left;"
+                                            [innerHTML]="field.tooltipContent"></span></ng-template>
+                                    <i class="ft-info text-info btn-lg btn-sm"
+                                        *ngIf="field.tooltipType =='popover' && field.tooltipActivation == 'hover'"
+                                        placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave"
+                                        popoverTitle="{{field.tooltipTitle}}"></i></label>
+                                <textarea *ngIf="field.fieldType == 'textarea'" class='form-control'
+                                    formControlName="{{field.fieldName}}" name="{{field.fieldName}}"
+                                    id="{{field.fieldName}}" placeholder="{{field.fieldHeader}}"
+                                    [readonly]="field.type == 'AutoGenerate'"
+                                    [required]="field.isMandatory == 'required'"
+                                    [ngClass]="{'is-invalid': (submitted || (f[field.fieldName].touched && (f[field.fieldName].errors?.email || f[field.fieldName].errors?.pattern || f[field.fieldName].errors?.maxlength || f[field.fieldName].errors?.minlength))) && f[field.fieldName].errors && field.isMandatory == 'required', 'is-valid': (submitted || (f[field.fieldName].touched && !f[field.fieldName].errors?.email && !f[field.fieldName].errors?.pattern && !f[field.fieldName].errors?.maxlength && !f[field.fieldName].errors?.minlength)) &&  !f[field.fieldName].errors}"></textarea>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.required && field.isMandatory == 'required' ">{{field.errorMessage}}</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.email && field.fieldType == 'email' ">Please
+                                    Enter Valid Email Address</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!submitted && f[field.fieldName].errors && f[field.fieldName].errors?.email && field.fieldType == 'email' && f[field.fieldName].touched ">Please
+                                    Enter Valid Email Address</small>
+                                <div *ngFor="let validations of field.fieldValidations">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'minlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && validations.validationName == 'minlength'  ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'pattern' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && validations.validationName == 'pattern'  ">{{validations.errorMessage}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Text Editor -->
+                        <div class="col-12" *ngIf="field.defaultShow && field.fieldType == 'textEditor'" style="margin-bottom: 5rem;">
+                            <div class="form-group row"
+                                *ngIf="field.defaultShow && field.fieldType != 'hidden' && field.fieldType == 'textEditor' ">
+                                <label class="label-control" for="{{field.fieldName}}">{{field.fieldHeader}}<font
+                                        color='red' *ngIf="field.isMandatory == 'required'">*</font>:
+                                    <ng-template #popContent><span style="text-align: left;"
+                                            [innerHTML]="field.tooltipContent"></span></ng-template>
+                                    <i class="ft-info text-info btn-lg btn-sm"
+                                        *ngIf="field.tooltipType =='popover' && field.tooltipActivation == 'hover'"
+                                        placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave"
+                                        popoverTitle="{{field.tooltipTitle}}"></i>
+                                </label>
+                                <quill-editor *ngIf="field.fieldType == 'textEditor'"
+                                    formControlName="{{field.fieldName}}"></quill-editor>
+                                <!-- <textarea *ngIf="field.fieldType == 'textarea'" class='form-control' formControlName="{{field.fieldName}}" name="{{field.fieldName}}" id="{{field.fieldName}}" placeholder="{{field.fieldHeader}}" [readonly] = "field.type == 'AutoGenerate'" [required]="field.isMandatory == 'required'" [ngClass]="{'is-invalid': (submitted || (f[field.fieldName].touched && (f[field.fieldName].errors?.email || f[field.fieldName].errors?.pattern || f[field.fieldName].errors?.maxlength || f[field.fieldName].errors?.minlength))) && f[field.fieldName].errors && field.isMandatory == 'required', 'is-valid': (submitted || (f[field.fieldName].touched && !f[field.fieldName].errors?.email && !f[field.fieldName].errors?.pattern && !f[field.fieldName].errors?.maxlength && !f[field.fieldName].errors?.minlength)) &&  !f[field.fieldName].errors}"></textarea> -->
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.required && field.isMandatory == 'required' ">{{field.errorMessage}}</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f[field.fieldName].errors && f[field.fieldName].errors?.email && field.fieldType == 'email' ">Please
+                                    Enter Valid Email Address</small>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!submitted && f[field.fieldName].errors && f[field.fieldName].errors?.email && field.fieldType == 'email' && f[field.fieldName].touched ">Please
+                                    Enter Valid Email Address</small>
+                                <div *ngFor="let validations of field.fieldValidations">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.maxlength && f[field.fieldName].errors && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'minlength' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.minlength && f[field.fieldName].errors && validations.validationName == 'minlength'  ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && f[field.fieldName].touched && validations.validationName == 'pattern' ">{{validations.errorMessage}}</small>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && validations.validationName == 'pattern'  ">{{validations.errorMessage}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tags -->
+                        <div class="col-md-6" *ngIf="field.defaultShow && field.fieldType == 'tabs'">
+                            <fieldset>
+                                <label>{{field.fieldHeader}}</label>
+                                <div class="form-group">
+                                    
+                                    <!-- <p class="text-muted small my-1">By default close char is <code>x</code>. -->
+                                </div>
+                            </fieldset>
+                        </div>
+                        <!--  -->
+                        <div class="col-12 color dark bg-secondary bg-lighten-4 bb-1 {{field.fieldType}}"
+                            *ngIf="field.defaultShow && field.fieldType == 'Section'">
+                            <section *ngIf="field.fieldType == 'Section'">{{field.fieldHeader}}</section>
+                        </div>
+                        <div class="table table-responsive col-12 open"
+                            *ngIf="field.defaultShow && field.fieldType == 'table'">
+                            <form class="form" [formGroup]="childTableForms[field.fieldName]" novalidate
+                                *ngIf="field.childCustomFields.length > 0">
+                                <table role="grid" class="customTable" style="min-width: 100%;"
+                                    width="{{childTableForms[field.fieldName+'width']}}px">
+                                    <thead>
+                                        <tr>
+                                            <td *ngFor="let columns of field.childCustomFields"
+                                                width="{{columns.fieldIndexing['fieldWidth']}}px">
+                                                {{columns.fieldHeader}}
+                                                <ng-template #popContent>
+                                                    <span style="text-align: left;"
+                                                        [innerHTML]="columns.tooltipContent"></span>
+                                                </ng-template>
+                                                <i class="ft-info text-info btn-lg btn-sm"
+                                                    *ngIf="columns.tooltipType =='popover' && columns.tooltipActivation == 'hover'"
+                                                    placement="right" [ngbPopover]="popContent"
+                                                    triggers="mouseenter:mouseleave"
+                                                    popoverTitle="{{columns.tooltipTitle}}"></i>
+                                            </td>
+                                            <td style="width: 100px" *ngIf="params.action != 'view'">Actions</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let columnData of childFieldData[field.fieldName];let i = index">
+                                            <td *ngFor="let columns of field.childCustomFields">
+                                                <!-- {{columns.fieldName}} --  -->
+                                                <span
+                                                    *ngIf="columns.fieldName == 'id' && childTableForms[field.fieldName+'editIndex'] != i">{{i+1}}</span>
+                                                <span
+                                                    *ngIf="columns.fieldName != 'id' && columns.fieldType != 'multipleCheck' && childTableForms[field.fieldName+'editIndex'] != i">{{columnData[columns.fieldName+'title']}}</span>
+                                                <span
+                                                    *ngIf="columns.fieldType == 'spanText' && childTableForms[field.fieldName+'editIndex'] == i">{{columnData[columns.fieldName+'title']}}</span>
+                                                <span class="row"
+                                                    *ngIf="columns.fieldName != 'id' && columns.fieldName == 'permission' && columns.fieldType == 'multipleCheck' && childTableForms[field.fieldName+'editIndex'] != i">
+                                                    <div class="col-md-12 row">
+                                                        <div class="col-md-3"
+                                                            *ngFor="let actions of columnData[columns.fieldName+'title']">
+                                                            <input type="checkbox" [disabled]='true'
+                                                                [checked]='actions.permission' name="permission">
+                                                            {{actions.action}}
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                                <input
+                                                    *ngIf="!columns.defaultShow && childTableForms[field.fieldName+'edit'] && childTableForms[field.fieldName+'editIndex'] == i"
+                                                    type="{{columns.fieldType}}"
+                                                    formControlName="{{columns.fieldName}}">
+                                                <div class="form-group"
+                                                    *ngIf="columns.fieldType != 'hidden' && columns.fieldType != 'textEditor' && columns.fieldType != 'multipleCheck' && columns.fieldType != 'spanText' && childTableForms[field.fieldName+'edit'] && childTableForms[field.fieldName+'editIndex'] == i">
+                                                    <input type="{{columns.fieldType}}"
+                                                        *ngIf="columns.fieldType != 'select' && columns.fieldType != 'radio'  && columns.fieldType != 'autoCompleter' && columns.fieldType != 'multiSelect' && columns.fieldType != 'textarea'"
+                                                        class='form-control' formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && (childTableForms[field.fieldName].get(columns.fieldName).errors?.email || childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern || childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength || childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength))) && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && !childTableForms[field.fieldName].get(columns.fieldName).errors?.email && !childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && !childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && !childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength)) &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}" />
+                                                    <div class="row" *ngIf="columns.fieldType == 'radio'">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="d-inline-block align-top mr-2"
+                                                                *ngFor="let option of columns.options">
+                                                                <div class="radio radio-sm">
+                                                                    <input type="{{columns.fieldType}}"
+                                                                        name="{{columns.fieldName}}"
+                                                                        formControlName="{{columns.fieldName}}"
+                                                                        value="{{option.value}}"
+                                                                        [required]="columns.isMandatory == 'required'"
+                                                                        [ngClass]="{'is-invalid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && (childTableForms[field.fieldName].get(columns.fieldName).errors?.email || childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern || childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength || childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength))) && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && !childTableForms[field.fieldName].get(columns.fieldName).errors?.email && !childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && !childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && !childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength)) &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}">
+                                                                    <label for="size-sm">{{option.title}}</label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <textarea rows="1" *ngIf="columns.fieldType == 'textarea'"
+                                                        class='form-control col-12'
+                                                        formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && (childTableForms[field.fieldName].get(columns.fieldName).errors?.email || childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern || childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength || childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength))) && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && !childTableForms[field.fieldName].get(columns.fieldName).errors?.email && !childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && !childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && !childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength)) &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}"></textarea>
+                                                    <ng-select class="col-12" [items]="columns.options"
+                                                        bindValue="value" bindLabel="title"
+                                                        (ngModelChange)="getEvent($event,columns.fieldName,field.fieldType,field.fieldName,columns.id)"
+                                                        *ngIf="columns.fieldType == 'autoCompleter' || columns.fieldType == 'multiSelect'"
+                                                        [multiple]="columns.fieldType == 'multiSelect'"
+                                                        formControlName="{{columns.fieldName}}"
+                                                        id="{{columns.fieldName}}" placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': this.childTableForms[field.fieldName+'submitted'] &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}">
+                                                    </ng-select>
+                                                    <select class="form-control col-12"
+                                                        *ngIf="columns.fieldType == 'select'"
+                                                        (ngModelChange)="getEvent($event,columns.fieldName,field.fieldType,field.fieldName,columns.id)"
+                                                        formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': this.childTableForms[field.fieldName+'submitted'] &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}">
+                                                        <option value="">Select {{columns.fieldHeader}}</option>
+                                                        <option *ngFor="let option of columns.options"
+                                                            value="{{option.value}}">{{option.title}}</option>
+                                                    </select>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required' ">{{columns.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).errors?.email && field.fieldType == 'email' ">{{columns.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).errors?.email && field.fieldType == 'email' && childTableForms[field.fieldName].get(columns.fieldName).touched ">{{columns.errorMessage}}</small>
+                                                    <div *ngFor="let validations of columns.fieldValidations">
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='maxlength'">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='maxlength' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='minlength' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='minlength'">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='pattern'">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='pattern'">{{validations.errorMessage}}</small>
+                                                    </div>
+                                                </div>
+                                                <span class="row"
+                                                    *ngIf="columns.fieldName == 'permission' && columns.fieldType == 'multipleCheck' && childTableForms[field.fieldName+'editIndex'] == i && childTableForms[field.fieldName+'edit']">
+                                                    <div class="col-md-12 row">
+                                                        <div class="col-md-3"
+                                                            *ngFor="let actions of childTableForms[field.fieldName].get(columns.fieldName).controls"
+                                                            [formGroup]="actions">
+                                                            <input type="hidden" formcontrol="id">
+                                                            <input type="hidden" formcontrol="roleId">
+                                                            <input type="hidden" formcontrol="moduleActionId">
+                                                            <input type="checkbox" formControlName="permission">
+                                                            {{actions.get('action').value}}
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td *ngIf="params.action != 'view'">
+                                                <i *ngIf="childTableForms[field.fieldName+'editIndex'] != i"
+                                                    class="ft-trash danger font-medium-1 mr-2"
+                                                    (click)="childDelete(field.fieldName,i)"></i>
+                                                <i *ngIf="childTableForms[field.fieldName+'editIndex'] != i"
+                                                    class="ft-check-square success font-medium-1 mr-2"
+                                                    (click)="childEdit(field.fieldName,i)"></i>
+                                                <i *ngIf="childTableForms[field.fieldName+'edit'] && childTableForms[field.fieldName+'editIndex'] == i"
+                                                    class="ft-x danger font-medium-1 mr-2"
+                                                    (click)="childCancel(field.fieldName)"></i>
+                                                <i *ngIf="childTableForms[field.fieldName+'edit'] && childTableForms[field.fieldName+'editIndex'] == i"
+                                                    class="ft-plus success font-medium-1 mr-2"
+                                                    (click)="childSave(field.fieldName)"></i>
+                                            </td>
+                                        </tr>
+                                        <tr
+                                            *ngIf="!childTableForms[field.fieldName+'edit'] && field.fieldName != 'permissions' && params.action !='view'">
+                                            <td *ngFor="let columns of field.childCustomFields">
+                                                <input *ngIf="!columns.defaultShow" type="{{columns.fieldType}}"
+                                                    formControlName="{{columns.fieldName}}">
+                                                <div class="form-group"
+                                                    *ngIf="columns.fieldType != 'hidden' && columns.fieldType != 'textEditor' && columns.fieldType != 'multipleCheck'">
+                                                    <input type="{{columns.fieldType}}"
+                                                        *ngIf="columns.fieldType != 'select' && columns.fieldType != 'file' && columns.fieldType !='multiSelect' && columns.fieldType != 'autoCompleter' && columns.fieldType != 'textarea' && columns.fieldType != 'spanText'"
+                                                        class='form-control' formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && (childTableForms[field.fieldName].get(columns.fieldName).errors?.email || childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern || childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength || childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength))) && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && !childTableForms[field.fieldName].get(columns.fieldName).errors?.email && !childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && !childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && !childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength)) &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}" />
+                                                    <textarea rows="1" *ngIf="columns.fieldType == 'textarea'"
+                                                        class='form-control col-12'
+                                                        formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && (childTableForms[field.fieldName].get(columns.fieldName).errors?.email || childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern || childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength || childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength))) && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': (this.childTableForms[field.fieldName+'submitted'] || (childTableForms[field.fieldName].get(columns.fieldName).touched && !childTableForms[field.fieldName].get(columns.fieldName).errors?.email && !childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && !childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && !childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength)) &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}"></textarea>
+                                                    <ng-select class="col-md-12" [items]="columns.options"
+                                                        bindValue="value" bindLabel="title"
+                                                        [multiple]="columns.fieldType == 'multiSelect'"
+                                                        (ngModelChange)="getEvent($event,columns.fieldName,field.fieldType,field.fieldName,columns.id)"
+                                                        *ngIf="columns.fieldType == 'autoCompleter' || columns.fieldType == 'multiSelect'"
+                                                        formControlName="{{columns.fieldName}}"
+                                                        id="{{columns.fieldName}}" placeholder="{{columns.fieldHeader}}"
+                                                        [readonly]="columns.type == 'AutoGenerate'"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': this.childTableForms[field.fieldName+'submitted'] &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}">
+                                                    </ng-select>
+                                                    <select class="form-control col-12"
+                                                        *ngIf="columns.fieldType == 'select'"
+                                                        (ngModelChange)="getEvent($event,columns.fieldName,field.fieldType,field.fieldName,columns.id)"
+                                                        formControlName="{{columns.fieldName}}"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        [required]="columns.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required', 'is-valid': this.childTableForms[field.fieldName+'submitted'] &&  !childTableForms[field.fieldName].get(columns.fieldName).errors}">
+                                                        <option value="">Select {{columns.fieldHeader}}</option>
+                                                        <option *ngFor="let option of columns.options"
+                                                            value="{{option.value}}">{{option.title}}</option>
+                                                    </select>
+                                                    <input type="{{columns.fieldType}}" #fileUploader
+                                                        *ngIf="columns.fieldType == 'file'" multiple="true"
+                                                        name="{{columns.fieldName}}" id="{{columns.fieldName}}"
+                                                        (change)="fileChangeEvent($event)">
+                                                    <!--<input #fileUploader type="{{columns.fieldType}}" *ngIf="columns.fieldType == 'file'" name="{{columns.fieldName}}" id="{{columns.fieldName}}" placeholder="{{columns.fieldHeader}" [required]="columns.isMandatory == 'required'" (change)="fileChangeEvent($event)" >-->
+                                                    <div *ngIf="columns.fieldType != 'file' && columns.fieldType != 'spanText'">
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && columns.isMandatory == 'required' ">{{columns.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).errors?.email && field.fieldType == 'email' ">{{columns.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).errors?.email && field.fieldType == 'email' && childTableForms[field.fieldName].get(columns.fieldName).touched ">{{columns.errorMessage}}</small>
+                                                        <div *ngFor="let validations of columns.fieldValidations">
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='maxlength'">{{validations.errorMessage}}</small>
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.maxlength && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='maxlength' ">{{validations.errorMessage}}</small>
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='minlength' ">{{validations.errorMessage}}</small>
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.minlength && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='minlength'">{{validations.errorMessage}}</small>
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="!this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && childTableForms[field.fieldName].get(columns.fieldName).errors && childTableForms[field.fieldName].get(columns.fieldName).touched && validations.validationName=='pattern'">{{validations.errorMessage}}</small>
+                                                            <small class="form-text text-muted danger"
+                                                                *ngIf="this.childTableForms[field.fieldName+'submitted'] && childTableForms[field.fieldName].get(columns.fieldName).errors?.pattern && childTableForms[field.fieldName].get(columns.fieldName).errors && validations.validationName=='pattern'">{{validations.errorMessage}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <i class="ft-x danger font-medium-1 mr-2"
+                                                    (click)="childCancel(field.fieldName)"></i>
+                                                <i class="ft-plus success font-medium-1 mr-2"
+                                                    (click)="childSave(field.fieldName)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="col-12" *ngIf="field.defaultShow && field.fieldType == 'object'">
+                            <form class="form" [formGroup]="childObject[field.fieldName]" novalidate
+                                *ngIf="field.childCustomFields.length > 0">
+                                <div class="row">
+                                    <div *ngFor="let ofield of field.childCustomFields"
+                                        [ngClass]="{'col-md-6 col-12': ofield.defaultShow && ofield.fieldType != 'hidden' && ofield.fieldType != 'textarea' && ofield.fieldType != 'textEditor' && ofield.fieldType != 'Section'&& ofield.fieldType != 'object' && ofield.fieldType != 'table', 'col-md-12':ofield.defaultShow && (ofield.fieldType == 'textarea' || ofield.fieldType == 'Section' || ofield.fieldType == 'table'|| ofield.fieldType == 'object')}">
+                                        <input *ngIf="!ofield.defaultShow && ofield.fieldType == 'hidden'"
+                                            type="{{ofield.fieldType}}" formControlName="{{ofield.fieldName}}">
+                                        <div *ngIf="ofield.defaultShow && ofield.fieldType != 'hidden' && ofield.fieldType != 'textarea' && ofield.fieldType != 'textEditor' && ofield.fieldType != 'Section' && ofield.fieldType != 'table' && ofield.fieldType != 'object'"
+                                            class="col-12">
+                                            <div class="form-group row">
+                                                <label class="col-md-5 col-form-label" for="horizontal-form-1">
+                                                    {{ofield.fieldHeader}} <font *ngIf="ofield.isMandatory=='required'"
+                                                        class="text-muted text-danger">*</font>
+                                                    <ng-template #popContent>
+                                                        <span style="text-align: left;"
+                                                            [innerHTML]="ofield.tooltipContent"></span>
+                                                    </ng-template>
+                                                    <i class="ft-info text-info btn-lg btn-sm"
+                                                        *ngIf="ofield.tooltipType =='popover' && ofield.tooltipActivation == 'hover'"
+                                                        placement="right" [ngbPopover]="popContent"
+                                                        triggers="mouseenter:mouseleave"
+                                                        popoverTitle="{{ofield.tooltipTitle}}"></i>
+                                                </label>
+                                                <div class="col-md-7">
+                                                    <input type="{{ofield.fieldType}}"
+                                                        *ngIf="ofield.fieldType != 'select'  && ofield.fieldType != 'autoCompleter'"
+                                                        class='form-control' formControlName="{{ofield.fieldName}}"
+                                                        name="{{ofield.fieldName}}" id="{{ofield.fieldName}}"
+                                                        placeholder="{{ofield.fieldHeader}}"
+                                                        [readonly]="ofield.type == 'AutoGenerate'"
+                                                        [required]="ofield.isMandatory == 'required' && field.defaultShow"
+                                                        [ngClass]="{'is-invalid': (submitted || (this.childObject[field.fieldName].get(ofield.fieldName).touched && (this.childObject[field.fieldName].get(ofield.fieldName).errors?.email || this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern || this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength || this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength))) && this.childObject[field.fieldName].get(ofield.fieldName).errors && ofield.isMandatory == 'required && field.defaultShow', 'is-valid': (submitted || (this.childObject[field.fieldName].get(ofield.fieldName).touched && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength)) &&  !this.childObject[field.fieldName].get(ofield.fieldName).errors}" />
+                                                    <ng-select [disabled]="this.hide[ofield.fieldName]"
+                                                        [items]="ofield.options" bindValue="value" bindLabel="title"
+                                                        (ngModelChange)="getEvent($event,ofield.fieldName,ofield.fieldType,'',ofield.id)"
+                                                        *ngIf="ofield.fieldType == 'autoCompleter'"
+                                                        formControlName="{{ofield.fieldName}}" id="{{ofield.fieldName}}"
+                                                        placeholder="{{ofield.fieldHeader}}"
+                                                        [readonly]="ofield.type == 'AutoGenerate'"
+                                                        [required]="ofield.isMandatory == 'required' && field.defaultShow"
+                                                        [ngClass]="{'is-invalid': submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && ofield.isMandatory == 'required' && field.defaultShow, 'is-valid': submitted &&  !this.childObject[field.fieldName].get(ofield.fieldName).errors}">
+                                                    </ng-select>
+                                                    <select class="form-control"
+                                                        (ngModelChange)="getEvent($event,ofield.fieldName,ofield.fieldType,'',ofield.id)"
+                                                        *ngIf="ofield.fieldType == 'select'"
+                                                        formControlName="{{ofield.fieldName}}"
+                                                        name="{{ofield.fieldName}}" id="{{ofield.fieldName}}"
+                                                        [required]="ofield.isMandatory == 'required'"
+                                                        [ngClass]="{'is-invalid': (submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && ofield.isMandatory == 'required' && field.defaultShow) || (submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && ofield.fieldType == 'email'), 'is-valid': submitted &&  !this.childObject[field.fieldName].get(ofield.fieldName).errors}">
+                                                        <option value="">Select {{field.fieldHeader}}</option>
+                                                        <option *ngFor="let option of ofield.options"
+                                                            value="{{option.value}}">{{option.title}}</option>
+                                                    </select>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.required && ofield.isMandatory == 'required' && field.defaultShow ">{{ofield.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && ofield.fieldType == 'email' && field.defaultShow ">Please
+                                                        Enter Valid Email Address</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && ofield.fieldType == 'email' && this.childObject[field.fieldName].get(ofield.fieldName).touched  && field.defaultShow">Please
+                                                        Enter Valid Email Address</small>
+                                                    <div *ngFor="let validations of ofield.fieldValidations">
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'minlength' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && validations.validationName == 'minlength'  ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'pattern' ">{{validations.errorMessage}}</small>
+                                                        <small class="form-text text-muted danger"
+                                                            *ngIf="submitted && f[field.fieldName].errors?.pattern && f[field.fieldName].errors && validations.validationName == 'pattern'  ">{{validations.errorMessage}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div Class="col-12"
+                                            *ngIf="ofield.defaultShow && ofield.fieldType == 'textarea'">
+                                            <div class="form-group row"
+                                                *ngIf="ofield.defaultShow && ofield.fieldType != 'hidden' && ofield.fieldType == 'textarea' ">
+                                                <label class="label-control"
+                                                    for="{{ofield.fieldName}}">{{ofield.fieldHeader}}<font color='red'
+                                                        *ngIf="ofield.isMandatory == 'required'">*</font>:
+                                                    <ng-template #popContent><span style="text-align: left;"
+                                                            [innerHTML]="ofield.tooltipContent"></span></ng-template>
+                                                    <i class="ft-info text-info btn-lg btn-sm"
+                                                        *ngIf="ofield.tooltipType =='popover' && ofield.tooltipActivation == 'hover'"
+                                                        placement="right" [ngbPopover]="popContent"
+                                                        triggers="mouseenter:mouseleave"
+                                                        popoverTitle="{{ofield.tooltipTitle}}"></i></label>
+                                                <textarea *ngIf="ofield.fieldType == 'textarea'" class='form-control'
+                                                    formControlName="{{ofield.fieldName}}" name="{{ofield.fieldName}}"
+                                                    id="{{ofield.fieldName}}" placeholder="{{ofield.fieldHeader}}"
+                                                    [required]="ofield.isMandatory == 'required' && field.defaultShow"
+                                                    [ngClass]="{'is-invalid': (submitted || (this.childObject[field.fieldName].get(ofield.fieldName).touched && (this.childObject[field.fieldName].get(ofield.fieldName).errors?.email || this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern || this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength || this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength))) && this.childObject[field.fieldName].get(ofield.fieldName).errors && ofield.isMandatory == 'required', 'is-valid': (submitted || (this.childObject[field.fieldName].get(ofield.fieldName).touched && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && !this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength)) &&  !this.childObject[field.fieldName].get(ofield.fieldName).errors}"></textarea>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.required && ofield.isMandatory == 'required' ">{{field.errorMessage}}</small>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && field.fieldType == 'email' ">Please
+                                                    Enter Valid Email Address</small>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).errors?.email && field.fieldType == 'email' && this.childObject[field.fieldName].get(ofield.fieldName).touched ">Please
+                                                    Enter Valid Email Address</small>
+                                                <div *ngFor="let validations of field.fieldValidations">
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.maxlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && validations.validationName == 'maxlength' ">{{validations.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'minlength' ">{{validations.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.minlength && this.childObject[field.fieldName].get(ofield.fieldName).errors && validations.validationName == 'minlength'  ">{{validations.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="!submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern && this.childObject[field.fieldName].get(ofield.fieldName).errors && this.childObject[field.fieldName].get(ofield.fieldName).touched && validations.validationName == 'pattern' ">{{validations.errorMessage}}</small>
+                                                    <small class="form-text text-muted danger"
+                                                        *ngIf="submitted && this.childObject[field.fieldName].get(ofield.fieldName).errors?.pattern && this.childObject[field.fieldName].get(ofield.fieldName).errors && validations.validationName == 'pattern'  ">{{validations.errorMessage}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-12" *ngIf="field.defaultShow && field.fieldType == 'cardSelection'">
+                           
+                           <app-custom-card-selector-group [formControlName]="field.fieldName" [options]="field.options" [header]="field.fieldHeader">
+
+                           </app-custom-card-selector-group>
+                           
+                            <!-- <h3>dposfjodp</h3>
+                            <div class="d-flex justify-content-center">
+                                <app-custom-card-selector *ngFor="let option of field.options"  [formControlName]= [option]="option">
+                                
+                                </app-custom-card-selector>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+        <div class="pageFooter" *ngIf="params.action != 'search'">
+            <div class="row">
+                <div class="form-group text-right">
+                    <button (click)="onCustomAction(button.name)" placement="top" *ngFor="let button of buttons"
+                        ngbTooltip="{{button.title}}" customAction [attr.action]="button.name"
+                        class="btn {{button.actionClass}} btn-raised mr-1 btn-sm show" ><i class="{{button.icon}}"
+                            *ngIf="button.icon != ''"></i>{{button.title}}</button>
+                    <!-- <button type="button" class="btn btn-raised btn-danger btn-sm mr-1" (click)="OnCancel()"><i class="ft-corner-up-left"></i>Back</button>
+                    <button class="btn btn-success btn-sm btn-raised" *ngIf="action ==''" (click)="OnSave()"><i class="fa fa-check-square-o"></i>Submit</button> -->
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+

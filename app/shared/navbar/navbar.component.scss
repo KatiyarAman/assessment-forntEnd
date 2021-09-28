@@ -1,0 +1,28 @@
+.navbar-light .navbar-nav .nav-link {
+    color: #2A2929CC;
+}
+
+.nav-link{
+    padding: 0;
+}
+
+.navbar .navbar-brand-center .navbar-header .logo .logo-text{
+    padding: 0;
+}
+
+.df-none {
+    display: none;
+}
+
+
+@media(max-width: 768px){
+    .df-none {
+        display: block!important;
+    }
+}
+
+
+nav.navbar.header-navbar {
+    border-bottom: 1px solid #ccc;
+    //margin-bottom: 10px;
+}

@@ -1,0 +1,9 @@
+:host {
+    &.ng-invalid {
+        outline: 1px solid red;
+    }
+}
+.selection-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}

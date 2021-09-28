@@ -1,0 +1,6 @@
+<div class="row p-2 my-2" [class.selection-disabled]="disalbed">
+    <div class="col-12">
+        <h5>{{header}} <span style="color:red">*</span> </h5>
+    </div>
+    <app-custom-card-selector class="col-4" *ngFor="let option of options" [option]="option" (clicked)="updateValue($event)" [formCurrentValue]="value"></app-custom-card-selector>
+</div>

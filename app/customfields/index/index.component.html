@@ -1,0 +1,12 @@
+<ngb-tabset>
+    <ngb-tab *ngFor="let tabs of headerObject" [ngClass] = "{'tab open': tabs.defaultShow && tabs.fieldType == 'tabs'}">
+        <ng-template ngbTabTitle>{{tabs.fieldHeader}}</ng-template>
+        <ng-template ngbTabContent>
+            <!-- <app-customForm [moduleId]="params.moduleId" [params]="tabParams[tabs.fieldName]" [moduleAction]="params.action" [moduleUrl]="moduleUrl"></app-customForm> -->
+            <app-dataTable [setting] = "tabParams[tabs.fieldName]['clientSetting']" (getAction) = "onCustomAction($event)"></app-dataTable>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>
+
+
+

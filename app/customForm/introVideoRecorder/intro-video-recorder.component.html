@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-12">
+        <h3>Introduction Video</h3>
+        <p class="text-primary">
+            This section is for recording a short introduction video of the candidate. We'll require your permission to access your camera and microphone.
+        </p>
+        <div class="d-flex justify-content-center" *ngIf="!(showWebcam | async)">
+            <button class="btn btn-primary btn-lg" (click)="startRecording()">Start Recording Introduction Video</button>
+            <video *ngIf="(showWebcam | async)" [srcObject]="mediaStream" class="webcam-video-player" #webcamPlayer></video>
+        </div>
+    </div>
+    <div class="col-12">
+        
+    </div>
+</div>

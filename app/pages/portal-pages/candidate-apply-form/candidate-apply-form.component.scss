@@ -1,0 +1,27 @@
+.container {
+    display: block;
+    font-size: 1rem;
+    // background-color: white;
+}
+
+#register-form {
+    background-color: white;
+}
+.container:not(.open) {
+    display: none;
+}
+
+.form-group {
+    label.required {
+        &::after {
+            content: '*';
+            color: red;
+        }
+    }
+    
+}
+
+.form-control, .custom-select {
+    border-radius: 0;
+    padding: 1.2rem 1.5rem;
+}

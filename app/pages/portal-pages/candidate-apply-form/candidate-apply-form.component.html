@@ -1,0 +1,96 @@
+<div class="container my-2" id="register-form" [ngClass]="{open: showData}" *ngIf="jobDescriptionData">
+  <div class="row">
+    <div class="col-12 p-2 bg-dark text-center">
+      <h4 class="font-weight-bold text-white">Applicant Registration</h4>
+    </div>
+    <div class="col-12 p-3">
+      <div class="p-2">
+        <p class="job-details"><strong class="font-weight-bold">Job Profile:</strong> {{jobDescriptionData.jobTitle}}
+        </p>
+        <p class="job-details"><strong class="font-weight-bold">Location: </strong>
+          <span>{{jobDescriptionData.location}}</span>
+        </p>
+        <p class="text-secondary">Please Fill The Following Details to Apply</p>
+      </div>
+    </div>
+    <div class="col-12">
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="" class="required">Name </label>
+            <input type="text" class="form-control" placeholder="Your Full Name" formControlName="name" required [class]="{'is-valid': !f['name'].errors && f['name'].touched, 'is-invalid': submitted && f['name'].errors}">
+            <p *ngIf="submitted && f['name'].errors?.required && f['name'].errors" class="invalid-feedback">Please Enter Your Full Name</p>
+          </div>
+          <div class="form-group col-6">
+            <label for="" class="required">Email Address </label>
+            <input type="email" class="form-control" placeholder="Your Email Address" formControlName="email" required [class]="{'is-valid': !f['email'].errors && f['email'].touched, 'is-invalid': submitted && f['email'].errors}">
+            <p *ngIf="submitted && f['email'].errors && f['email'].errors?.required" class="invalid-feedback">Please Enter Your Email</p>
+          </div>
+          <div class="form-group col-6">
+            <label for="" class="required">Contact No.</label>
+            <input type="text" class="form-control" placeholder="Your Mobile Number" formControlName="contactNo" required [class]="{'is-valid': !f['contactNo'].errors && f['contactNo'].touched, 'is-invalid': submitted && f['contactNo'].errors}">
+            <p *ngIf="submitted && f['contactNo'].errors && f['contactNo'].errors?.required" class="invalid-feedback">Please Enter Your Mobile No</p>
+          </div>
+          <div class="form-group col-6">
+            <label for="">Upload Your Resume</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" required (change)="uploadFileChange($event)" [class]="{'is-valid': !f['resume'].errors && f['resume'].touched, 'is-invalid': submitted && f['resume'].errors}">
+              <label class="custom-file-label" for="customFile">Upload Resume</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <h6 class="font-weight-bold">Please Answer These Questions</h6>
+            <p class="text-secondary">
+              There some skills related to this job. Please enter how much relavant experience do you have
+            </p>
+          </div>
+          <table class="table table-borderless">
+            <thead class="thead-light">
+              <tr class="d-flex">
+                <th class="col-3 text-center">Skill Name</th>
+                <th class="col-3 text-center">I have This Skill</th>
+                <th class="col-3 text-center">My Experience</th>
+                <th class="col-3 text-center">Comment</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="skillExperience">
+              <tr class="d-flex" *ngFor="let skillGroup of ft.controls; let i = index" [formGroup]="skillGroup">
+                <td class="col-3">
+                  <strong>{{applyMandatorySkills[i].skill.skill}}</strong>
+                </td>
+                <td class="col-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" [id]="'haveSkill'+i" (change)="skillInputChange($event, i, rowLabel)" formControlName="haveSkill">
+                    <label class="custom-control-label" [for]="'haveSkill'+i" #rowLabel>No</label>
+                  </div>
+                </td>
+                <td class="col-3">
+                  <div class="input-group">
+                    <input type="number" class="form-control" [required]="skillGroup.get('haveSkill').value" [ngClass]="{'is-valid': !skillGroup.get('experience').errors && skillGroup.get('experience').touched, 'is-invalid': submitted && skillGroup.get('experience').errors}" placeholder="Experience" formControlName="experience" />
+                    <div class="input-group-append">
+                      <select formControlName="experienceUnit" [required]="skillGroup.get('haveSkill').value" [ngClass]="{'is-valid': !skillGroup.get('experienceUnit').errors && skillGroup.get('experienceUnit').touched, 'is-invalid': submitted && skillGroup.get('experienceUnit').errors}" >
+                        <option value="MONTH" selected>Month</option>
+                        <option value="YEAR">Year</option>
+                      </select>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Your Comment" formControlName="comment">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group col-6 p-2">
+            <label class="font-weight-bold">Message to employer</label>
+            <textarea class="form-control" formControlName="message" placeholder="You can write a brife message to the employer" style="resize: none;" rows="3"></textarea>
+          </div>
+          <div class="col-12 p-3">
+            <button type="submit" class="btn mx-2 btn-primary">Apply</button>
+            <button class="btn btn-secondary mx-2" (click)="goToJobDescription()">Back to Job Description</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

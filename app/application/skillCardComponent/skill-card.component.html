@@ -1,0 +1,27 @@
+<div class="container mb-5" *ngIf="skills">
+    <div class="col-12">
+        <h3>Matched Skill Set According to Job Profile</h3>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 my-2" *ngFor="let skill of skills">
+            <div class="card" style="height: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{skill.skill}}</h5>
+                    <h6 class="mb-2">Total Questions : {{skill.totalQuestions}}</h6>
+                    <p class="card-text text-justify">{{skill.description}}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <i class="icon fa fa-list mr-1 font-medium-1" (click)="viewList(skill)"></i>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn1 btn-success btn-sm" (click)="viewQuestionnaireAutoPickup(skill)">Add <i class="fa fa-plus-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

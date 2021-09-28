@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+:host {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+}
+// .container {
+//     display: block;
+//     padding: 2rem;
+//     font-size: 1rem;
+//     background-color: white;
+//     min-height: 80vh;
+// }
+
+.container:not(.open) {
+    display: none;
+}
+
+.heading {
+    font-size: 1.2rem;
+}
+
+.sub-heading {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #433d3c;
+}
+
+.form-control {
+    border-radius: none !important;
+    height: 1.4rem !important;
+}

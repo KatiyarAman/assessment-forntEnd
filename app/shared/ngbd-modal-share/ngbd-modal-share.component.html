@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title">Share</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="default-url-div">
+        <p [textContent]="copyHeader" class="font-weight-bold"></p>
+        <input type="text" [value]="defaultUrl" #urlinput readonly (click)="copyToClipboard()">
+      </div>
+      <p class="font-weight-bold">Social Share</p>
+      <app-social-share-buttons [shareURL]="defaultUrl" [shareTitle]="'share job'"></app-social-share-buttons>
+      <form [formGroup]="generateLink" noValidate>
+          <label for="socialProfile">Generate Share Link For Your Platform</label>
+          <input class="form-control my-2" #platform type="text" name="socialProfile" id="socialProfile" formControlName="socialProfile" [ngClass]="{'is-invalid': submitted && f.socialProfile.errors}" placeholder="Social Platform Name" required />
+          <small class="form-text text-muted danger" *ngIf="submitted && f.socialProfile.errors && f.socialProfile.errors.required">Please Enter Social Platform</small>
+          <button type="button" class="btn btn-sm my-2 btn-secondary btn-raised btn-primary" (click)="generateSocialLink()">Generate</button>      
+      </form>
+      <div class="default-url-div" *ngIf="generatedLink && platform.value">
+        <p class="font-weight-bold">Link for {{platform.value}}</p>
+        <input type="text" [value]="generatedLink" #genlinkinput readonly (click)="copyToClipboardGenLink()">
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised btn-danger" (click)="activeModal.dismiss('Close click')">Close</button>
+  </div>

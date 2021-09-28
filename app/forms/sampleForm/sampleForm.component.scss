@@ -1,0 +1,26 @@
+.form-control{
+    border: 1px solid #9e9e9e;
+    height: calc(1.5em + 0.5rem + 3px);
+    padding: 0.3rem 0.75rem;
+    // border-radius: 1.35rem;
+}
+
+.input-group {
+    margin-bottom: 0;
+}
+
+form label, .form-group label{
+    text-transform: none;
+}
+
+.newDiv{
+    margin-top: 20px;
+}
+
+form.form-bordered .form-group .label-control{
+    padding: 0;
+}
+
+form.form-bordered .form-group > div{
+    padding: 0.2rem;
+}

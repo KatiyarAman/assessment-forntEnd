@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="col-12">
+    <button type="button" class="close" (click)="modalService.close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-12 remarks-pop">
+      <div class="message-write-section my-2">
+        <strong>Add a new Reminder Comment</strong>
+        <form [formGroup]="reminderForm" (ngSubmit)="addReminder()">
+          <div class="form-row justify-content-center">
+            <div class="col-8 d-flex flex-column">
+              <input type="text" class="form-control" placeholder="Remarks" formControlName="remarks">
+              <p class="small text-danger" *ngIf="remarks.touched && remarks.errors?.required">Please Enter Your Remark!</p>
+            </div>
+            <div class="col-2 d-flex flex-column">
+              <input type="datetime-local" class="form-control" formControlName="reminderTimestamp" [min]="currentDate()">
+              <p class="small text-danger" *ngIf="reminderTimestamp.touched && reminderTimestamp.errors?.futureDateError">Reminder Date Must In Future!</p>
+              <p class="small text-danger" *ngIf="reminderTimestamp.touched && reminderTimestamp.errors?.required">Please Select Reminder Time!</p>
+            </div>
+            <div class="col-2">
+              <button type="submit" class="btn btn-primary btn-block btn-sm">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="comment-section my-2 p-1" *ngIf="reminderHistory">
+        <p>Recent Comments</p>
+        <div class="comment w-100 shadow-sm border" *ngFor="let comment of reminderHistory">
+          <div class="comment-header d-flex justify-content-between">
+            <div class="d-flex flex-column">
+              <h6>{{comment.username}}</h6>
+              <p class="text-muted small">{{getDate(comment.postedTimestamp) | date: 'MMMM dd, yyyy hh:mm'}}</p>
+            </div>
+            <div>
+              <p>Next Follow Up Date: <strong>{{getDate(comment.reminderTimestamp) | date: 'MMMM dd, yyyy hh:mm'}}</strong></p>
+            </div>
+          </div>
+          <hr>
+          <div class="comment-content text-dark" [textContent]="comment.remarks"></div>
+        </div>
+      </div>
+      <div *ngIf="!reminderHistory">
+            Loading...
+      </div>
+    </div>
+  </div>
+</div>

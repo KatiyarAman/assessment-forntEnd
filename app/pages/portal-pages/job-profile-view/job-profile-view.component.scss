@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+:host {
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+  display: block;
+
+  .row {
+    .heading-container {
+      .heading {
+        font-size: 1.2rem;
+      }
+
+      .sub-heading {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #433d3c;
+      }
+    }
+
+    .job-details .job-detail-card {
+      font-size: 0.9rem;
+
+      &.first-job-detail-card {
+        background-color: #1fab89;
+      }
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .publish-date {
+      font-size: 0.8rem;
+    }
+
+    .action-container {
+      .share-button {
+        background-color: #3273dc !important;
+      }
+
+      .apply-button {
+        background-color: #1fab89 !important;
+      }
+    }
+  }
+
+  .job-desc-row {
+    h6 {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .skill-badge {
+      padding: 0.3rem 07rem;
+      background-color: var(--info);
+      color: white;
+      font-size: 0.9rem;
+      border-radius: 0.4rem;
+      margin: 0.3rem;
+    }
+  }
+
+}
+
+.share-logos img {
+  margin: 0.5rem 0.7rem;
+  width: 30px;
+  height: 30px;
+}
+
+.container:not(.open) {
+  display: none;
+}
+
+
+.social-share {
+  a {
+    padding: 0.3rem;
+    margin: 0 0.5rem;
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+
+.social-btn-icon{
+  height: 18px;
+  margin-left: 17px;
+  margin-bottom: -3px;
+}
+
+.login-Btn{
+  margin-left: 44%;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: aliceblue;
+  border: 2px solid black;
+  height: 40px;
+}

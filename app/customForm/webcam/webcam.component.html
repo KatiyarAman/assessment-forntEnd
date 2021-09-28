@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row p-3">
+        <div class="col-12">
+            <h4>Introduce Yourself Through a Short Video</h4>
+            <p class="text-secondary">
+                Would you like to record a {{videoTime}} minutes introduction video with this application. This will help us to
+                know more about your communication Skills, Personality and Confidence.
+                <!-- This section is for recording a short introduction video of the candidate.
+                We'll require your permission to access your camera and microphone and 
+                then record a {{videoTime}} minutes video. -->
+            </p>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-8">
+            <video class="webcam-video-player" #webcam ></video>
+        </div>
+        <div class="col-4 d-flex flex-column align-items-center">
+            <button class="btn btn-danger" (click)="startRecording()" [disabled]="startBtnDisabled | async">Start Recording Introduction Video</button> 
+            <button  *ngIf="oneClick" class="btn btn-success mt-1" (click)="startRecording()">Retake</button>
+            <!-- <p class="lead countdown p-3" [textContent]="cdwn+ 'seconds'"> </p> -->
+            <p class="text-muted text-center p-3">After clicking on Start, We need your permission to access your camera and microphone</p>
+            <h3 *ngIf="videoDone">We're done!</h3>
+        </div>
+
+    </div> 
+    <h3 *ngIf="videoDone"></h3>
+    <!-- <div class="row">
+        <div class="col-12">
+            <canvas #picture width="600px" height="400px"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <video #preview width="600px" height="400px" controls></video>
+    </div> -->
+</div>

@@ -1,0 +1,156 @@
+<section class="dataTable">
+    <form class="form" [formGroup]="searchForm" novalidate>
+        <div class="newDiv col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="card-title">{{params.title}}</h4>
+                </div>
+                <div class="col-md-8">
+                    <button (event)="onCustomAction($event,fieldList)" placement="bottom" *ngFor="let button of buttons" ngbTooltip="{{button.title}}" customAction [attr.action]="button.name" class="btn {{button.actionClass}} btn-raised mr-1 btn-sm"><i class="{{button.icon}}" *ngIf="button.icon != ''"></i>{{button.title}}</button>
+                    <!--<button (event)="onCustomAction($event,fieldList)" placement="bottom" ngbTooltip="Add" customAction action="add" class="btn btn-info btn-raised mr-1 btn-sm">Add More</button>-->
+                    <i *ngFor="let icon of icons" class="{{icon.actionClass}} {{icon.icon}}" [ngClass]="{'open': searchOpenClass && icon.title == 'Search'}" (click)="getName(icon.title)" placement="bottom" ngbTooltip="{{icon.title}}" customAction [attr.action]="icon.name"></i>
+                    
+                    <!-- <i class="icons ft-settings font-medium-1" placement="bottom" ngbTooltip="Settings" customAction action="add"></i> -->
+                    <div>
+                        <div class="search-input form-group mr-1" [ngClass]="{'open': searchOpenClass}" style="float: right;">
+                            <!-- <label>Search: -->
+                            <fieldset>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text searchBtn" id="basic-addon1" (click)="getSearchData()"><i class='icons search ft-search font-medium-1'></i></span>
+                                    </div>
+                                    <span class="position-relative has-icon-right">
+                                        <span class="search-input-close form-control-position" (click)="toggleSearchOpenClass(false)">
+                                            <i class="ft-x"></i>
+                                        </span>
+                                        <input type="text" class="form-control searchInput" #search formControlName="search" autofocus placeholder="Search">
+                                    </span>
+                                    <div class="input-group-append">                                        
+                                        <span class="input-group-text" (click)="toggleAdvanceSearchOpenClass()">
+                                            <i class="ft-chevrons-down" style="color: black;" placement="bottom" ngbTooltip="Advance Filter"></i>
+                                        </span>
+                                    <!-- </div>
+                                    <div class="input-group-append"> -->
+                                        <span class="input-group-text searchSelection"  id="basic-addon2">
+                                            <ng-select [items]="dropdownList" placeholder="All" [multiple]='true' bindValue="value" bindLabel="label"  formControlName="multiSelect" ></ng-select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
+                            <!-- </label> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="advanceFilter">
+                <div class="filters col-md-12">
+                    <app-customFilter [filterData]="advanceFilters" [moduleId]="filterParams.moduleId" [params]="filterParams" [moduleAction]="filterParams.action" (getAction) = "onSearch($event)"></app-customFilter>
+                </div>
+            </div>
+            <div class="row" *ngIf="screenFilter">
+                <div class="filters col-md-12">
+                    <app-customFilter [filterData]="screenFilters" [moduleId]="screenFilterParams.moduleId" [params]="screenFilterParams" [moduleAction]="screenFilterParams.action" (getAction) = "onSearch($event)"></app-customFilter>
+                </div>
+            </div>
+        </div>
+        <div class="mainContent col-md-12">
+            <div class="row">
+                <div class="col-sm-12 {{tableClass}}">
+                    <table customDataTable width="{{tableWidth}}px" role="grid" class="customTable" style="min-width: 100%;" >
+                        <thead>
+                            <tr>
+                                <td class="dropdown" ngbDropdown width="20px">
+                                    <ng-template #popContent >
+                                        <span style="text-align: left;" [innerHTML]="'Click to Show/HideColumns'"></span>
+                                    </ng-template>
+                                    <i class="ft-eye success hideCol mr-2 dropdown-toggle user-dropdown" data-toggle="dropdown" ngbDropdownToggle placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Show/Hide"></i>
+                                    <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0 showHideCol" aria-labelledby="dropdownBasic2" ngbDropdownMenu>
+                                        <div class="col-md-12 dropdownList" *ngFor="let columns of headerObject" [ngClass]="{'showCol': columns.hiddable}">
+                                            <input type="checkbox" name="showCol" [checked]="columns.display" class="mr-2" (change)=showHide(columns.id)>
+                                            <label class="col-form-label" for="horizontal-form-1">{{columns.indexFieldHeader}}</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="columnDisplay" [ngClass]="{'showCol': columns.display}" *ngFor="let columns of headerObject" tableColHead width="{{columns.fieldWidth}}px">
+                                    {{columns.indexFieldHeader}}
+                                    <ng-template #popContent >
+                                        <span style="text-align: left;" [innerHTML]="'Click to Sort'"></span>
+                                    </ng-template>
+                                    <i class="{{columns.sortIcon}} mr-2" *ngIf="columns.sortable" (click)="sort(columns.sortable, columns.dataFieldName, columns.id)" placement="bottom" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Click to Sort"></i>
+                                    <ng-template #popContent >
+                                        <span style="text-align: left;" [innerHTML]="columns.hideColText"></span>
+                                    </ng-template>
+                                    <i *ngIf="columns.hiddable" class="ft-eye-off success hideCol mr-2" placement="bottom" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{columns.hideCol}}" (click)="hideCol(columns.id)"></i>
+                                </td>
+                                <td style="width: 150px">Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let data of dataList; let i = index">
+                                <td><input type='checkbox'></td>
+                                <td class="columnDisplay" [ngClass]="{'showCol': columns.display}" *ngFor="let columns of headerObject">{{columns.indexFieldName == 'id' ? startLimit + i  : data[columns.indexFieldName] }}</td>
+                                <td>
+                                    <i *ngFor = "let act of actions" class="{{act.icon}} {{act.actionClass}}" (event)="onCustomAction($event,fieldList)" placement="top" ngbTooltip="{{act.title}}" customAction [attr.status]="data.status" [attr.data-id]="data.id" [attr.action]="act.name" [attr.subscriptionType]="data.subType" [attr.trialPeriod]="data.trialPeriod"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="pageFooter col-md-10">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite">
+                        Showing {{startLimit}} {{currentPage == 1 ? '' : 'to'}} {{currentPage == 1 ? '' : endLimit}} of {{totalElements}} entries
+                    </div>
+                </div>            
+                <div class="col-sm-4">
+                    <div class="form-group" style="float: right;">
+                        <label>Show  
+                            <select name="pageLimit" formControlName="pageLimit" class="form-control input-sm" (ngModelChange)="changeLimit($event)">
+                                <option value="1">1</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="All">All</option>
+                            </select>
+                        entries</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate" style="float: right;">
+                        <ul class="pagination">
+                            <li class="page-item ng-star-inserted" [ngClass]="{'disabled' : currentPage == 1}"  (click)="getPage(1)">
+                                <a href="javascript:void(0);" class="page-link" aria-label="First"><span aria-hidden="true" class="ng-star-inserted">««</span></a>
+                            </li>
+                            <li class="page-item ng-star-inserted" [ngClass]="{'disabled' : currentPage == 1}" (click)="getPage(currentPage-1)">
+                                <a href="javascript:void(0);" class="page-link" aria-label="Previous"><span aria-hidden="true" class="ng-star-inserted">«</span></a>
+                            </li>
+                            <li class="page-item ng-star-inserted" *ngFor="let in of counter(endPage);let i = index" [ngClass]="{'active' : currentPage == in}" (click)="getPage(in)">
+                                <a href="javascript:void(0);"  class="page-link ng-star-inserted"> {{in}} </a>
+                            </li>
+                            <li class="page-item ng-star-inserted" [ngClass]="{disabled : currentPage == totalPages}" (click)="getPage(currentPage+1)">
+                                <a href="javascript:void(0);" class="page-link" aria-label="Next"><span aria-hidden="true" class="ng-star-inserted">»</span></a>
+                            </li>
+                            <li class="page-item ng-star-inserted" [ngClass]="{disabled : currentPage == totalPages}" (click)="getPage(totalPages)">
+                                <a href="javascript:void(0);" class="page-link" aria-label="Last"><span aria-hidden="true" class="ng-star-inserted">»»</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- <h6 class="text-primary m-0">Or Login With</h6> -->
+            <ngx-spinner></ngx-spinner>
+            <!-- <div class="login-options">
+              <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
+              <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
+            </div> -->
+        </div>
+    </form>
+</section>

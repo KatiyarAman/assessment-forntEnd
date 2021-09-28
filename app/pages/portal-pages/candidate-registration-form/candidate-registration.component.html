@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{name}}</h4>
+  <button type="button" class="close" aria-label="Close" (click) = "getAction('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container my-2 px-3 rounded" id="register-form" [ngClass]="{open: showData}" *ngIf="!showLoading">
+    <div class="d-flex justify-content-between align-items-center p-2 heading-container">
+      <div class="d-flex flex-column p-3">
+        <div class="heading font-weight-bold">{{jobDescriptionData.jobTitle}}</div>
+        <div class="sub-heading">Shivit Technologies Pvt. Ltd.</div>
+      </div>
+      <div class="d-flex">
+        <img src="../../../../assets/img/shivitlogo.png" alt="" width="300px" height="auto">
+      </div>
+    </div>
+    <div class="d-flex job-detail-card  rounded px-3 text-secondary align-items-center mx-3">
+      <i class="icon fa fa-map-marker-alt p-1"></i>
+      <!-- <span class="p-1" *ngFor="let loc of payloadData.jobProfile.location" [textContent]="loc"></span>
+       -->
+      <span [textContent]="jobDescriptionData.location"></span>
+    </div>
+    <app-popupForm [moduleId]="moduleId" [params]="formParams" [moduleAction]="action" (success) = "getAction($event)"></app-popupForm>
+  </div>
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-secondary btn-raised btn-info" (click)="save()">Save</button>
+  <button type="button" class="btn btn-secondary btn-raised btn-danger" (click)="activeModal.dismiss('Close click')">Close</button>
+</div> -->
+
+

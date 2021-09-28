@@ -1,0 +1,87 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.question-list, .main-test-area{
+    max-height: 500px;
+    overflow: auto;
+}
+
+.question-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.question-list ul li {
+    padding: 0.4rem 0.6rem;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    word-wrap: normal;
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.question-list ul li:hover {
+    background-color: #ddd;
+}
+
+.question-list ul li.unattempted {
+    border-left-color: var(--secondary);
+}
+
+.question-list ul li.attempted {
+    border-left-color: var(--success);
+    cursor: not-allowed;
+}
+.question-list ul li.look-after {
+    border-left-color: var(--info);
+}
+
+.status-bar .questions-status {
+    font-size: 0.9rem;
+}
+
+
+.main-test-area .question-title {
+    font-weight: 600;
+    word-spacing: 2px;
+    font-size: 1rem;
+    padding: 1rem;
+    background-color: #eeeded;
+    border: 1px grey;
+    border-radius: 0.3rem;
+}
+
+.main-test-area .question-description {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+
+.options-container .radio-option {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+}
+
+.assessment-screen-header {
+    padding: 0.3rem 1rem;  
+    background-color: #30475e; 
+}
+.assessment-screen-header .timer {
+    background-color: white;
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;   
+}
+.assessment-screen-header .header h6 {
+    font-size: 1.3rem;
+}

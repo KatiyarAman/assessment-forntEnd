@@ -1,0 +1,122 @@
+    <div class="container-fluid" [ngClass]="{open: showData}">
+        <div class="row  assessment-screen-header">
+            <div class="col-12 p-2 d-flex justify-content-between">
+                <div class="header d-flex align-items-center">
+                    <h6 class="text-white text-center"> <i class="fa fa-user-check"></i> Java Developer Assessment</h6>
+                </div>
+                <div class="timer">
+                    <span><i class="fa fa-clock"></i> 2 min 30 sec</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="showData">
+            <div class="col-3 p-0 question-list position-relative">
+                <div class="text-center p-2 font-weight-bold border-bottom" style="position: sticky; top: 0; z-index: 2; background-color: #fff;">Questions List</div>
+                <ul>
+                 <li *ngFor="let ques of formData.answers" [ngClass]="{'unattempted' : ques.status == 28,'attempted': ques.status == 4,'look-after': ques.status == 18}">
+                    <span >{{ques.questionId}}</span> {{ques.question}}
+                  </li>
+                </ul>
+            </div>
+            <div class="col-9 d-flex flex-column justify-content-between  main-test-area position-relative">
+                <form [formGroup]="dataForm" novalidate>
+                <input type="hidden" formControlName="questionId">
+                <div class="row question-row" >
+                    <div class="col-12 p-2">
+                        <div class="col-12 p-3">
+                            <p class="question-title" [textContent]="'Q. ' + question.question"></p>
+                        </div>
+                        <div class="col-12 d-flex flex-column option-container" *ngIf="question.field.type == 'multiSelect'">
+                            <div class="radio-option" *ngFor="let opt of question.options; let i = index" >
+                                <div class="custom-control">
+                                    <input type="checkbox" [id]="question.id + '-' + i" [checked]="checkValue(opt.id)"  name="questionAnswers" [value]="opt.id" (change)="onCheckChange($event)" class="custom-control-input">
+                                    
+                                    <label class="custom-control-label" [for]="question.id + '-' + i" [textContent]="opt.optionName" ></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex flex-column option-container" *ngIf="question.field.type == 'select'">
+                            <div class="radio-option" *ngFor="let opt of question.options; let i = index" >
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" [id]="question.id + '-' + i" name="questionAnswer" class="custom-control-input" formControlName="questionAnswer">
+                                    <label class="custom-control-label" [for]="question.id + '-' + i" [textContent]="opt.optionName" ></label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 d-flex flex-column option-container" *ngIf="question.field.type == 'text'">
+                            <div class="col-12" >
+                                
+                                <textarea [id]="question.id" name="questionAnswer"  class="form-control" formControlName="questionAnswer" ></textarea>
+                            </div>
+                        </div>
+                        <!-- <app-assessment-question [question]="questions[currentQuestion]"></app-assessment-question> -->
+                    </div>
+                    <div class="col-12 p-3 question-description">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+                <div class="row">
+                    <div class="col-12 p-1 options-container d-flex flex-column ">
+                        
+                    </div>
+                </div>
+                <!-- <div class="question-status-row">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div>
+                            timer
+                        </div>
+                        <div>
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="row status-bar border-top">
+            <div class="col-4 p-2">
+                <div class="questions-status d-flex ">
+                    <div class="px-2 py-1 mx-1  text-success font-weight-bold">
+                        Submitted: 8
+                    </div>
+                    <div class="px-2 py-1  mx-1 text-info font-weight-bold">
+                        Look After: 5
+                    </div>
+                    <div class="px-2 py-1  mx-1 text-secondary font-weight-bold">
+                        Unattempted: 20
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 p-2">
+                <div class="d-flex justify-content-end">
+                    <!-- <button class="btn btn-info rounded btn-sm mx-2 px-4">Look After</button>
+                    <button class="btn btn-primary rounded btn-sm mx-2 px-4">Submit</button> -->
+                    <button  class="btn btn-sm rounded-pill px-3 btn-primary mx-2 font-weight-bold" [disabled]="prev" (click)="previousQuestion()">Previous</button>
+                <button class="btn btn-sm rounded-pill px-3 btn-primary mx-2 font-weight-bold" [disabled]="next" (click)="nextQuestion()">Next</button>
+                <button  class="btn btn-sm rounded-pill px-3 btn-primary mx-2 font-weight-bold" [disabled]="next" (click) ="saveNextQuestion()" >Save & Next</button>
+                </div>
+            </div>
+            
+            <!-- <div class="col-3 p-1">
+                <div class="assessment-progress">
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                 </div>
+             </div> -->
+        </div>
+        <div class="row">
+            <div class="col-12 my-3">
+                <div class="progress" style="height: 5px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        <p>Form Status: {{ dataForm.value | json }}</p>
+    </div>

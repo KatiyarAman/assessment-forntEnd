@@ -1,0 +1,74 @@
+<div class="container p-3" *ngIf="questionnaires && form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="width: 100%;">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center flex-column align-items-center">
+                <h5 class="text-dark font-weight-bold">{{skill.skill}}</h5>
+                <h6 class="text-muted font-weight-bold">Questions : {{skill.totalQuestions}}</h6>
+            </div>
+        </div>
+        <hr>
+        <div class="row px-2 questions-table" 
+            style="overflow-y: scroll;min-height: 60vh; max-height: 65vh;">
+
+            <div class="col-12">
+                <table class="table table-borderless">
+                    <!-- <thead>
+              <tr class="d-flex">
+                <td class="col-1 mx-1">Pick</td>
+                <td class="col-8">Question</td>
+                <td class="col-1">Duration</td>
+                <td class="col-1">Difficulty</td>
+                <td class="col-1">View</td>
+              </tr>
+            </thead> -->
+                    <tbody>
+                        <app-question-row [parentForm]="form" *ngFor="let question of questionnaires"
+                            [question]="question"></app-question-row>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row btn-row p-2">
+            <div class="col-12 d-flex justify-content-between">
+                <div>
+                    <button type="submit" class="btn btn-success rounded-pill mx-2">Add Selected
+                        ({{currentSelectedQuantity}})</button>
+                    <button class="btn btn-secondary rounded-pill mx-2"
+                        (click)="activeModal.close('Close')">Cancel</button>
+                </div>
+                <div>
+                    <button class="btn btn-primary rounded-pill">Create New Question</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- <div class="container p-2" *ngIf="skill">
+    <div class="row" *ngIf="questionnaires && form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" style="width: 100%;">
+            <div class="col-12">
+                <h5 class="text-center">Questionnaires for {{skill.skill}}</h5>
+                <h6 class="text-center text-secondary">Total Questions : {{skill.totalQuestions}} </h6>
+            </div>
+            <div class="col-12">
+                <app-question-row *ngFor="let question of questionnaires" [question]="question"></app-question-row>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr  class="p-0">
+                            <td><input type="checkbox" [formControlName]="question.id"></td>
+                            <td [innerHTML]="question.question"></td>
+                            <td>{{question.difficultyLevel}}</td>
+                            <td>{{question.timeLimit / 60}} minute</td>
+                            <td class="p-0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary mx-2">Add ({{currentSelectedQuantity}})</button>
+                <button class="btn btn-secondary mx-2" (click)="activeModal.close('Close')">Close</button>
+            </div>
+        </form>
+    </div>
+</div> -->
